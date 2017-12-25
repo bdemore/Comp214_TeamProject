@@ -97,7 +97,14 @@ namespace Comp214_TeamProject.Utils
         {
             if (!dr.IsDBNull(dr.GetOrdinal(columnName)))
             {
-                return dr.GetBoolean(dr.GetOrdinal(columnName));
+                if (IsOracle())
+                {
+                    return SafeGetDecimal(dr, columnName) == 1 ? true : false;
+                }
+                else
+                {
+                    return dr.GetBoolean(dr.GetOrdinal(columnName));
+                }
             }
 
             return default(bool);
@@ -117,6 +124,15 @@ namespace Comp214_TeamProject.Utils
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Checks if the configuration is set to Oracle server.
+        /// </summary>
+        /// <returns>true if the configuration is set to Oracle.</returns>
+        private static bool IsOracle()
+        {
+            return "ORACLE" == DB_CFG;
         }
     }
 }

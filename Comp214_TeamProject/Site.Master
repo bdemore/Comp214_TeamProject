@@ -52,9 +52,15 @@
                     </a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
-                    </ul>
+                    <div class="ub-book-search-bar">
+                        <asp:DropDownList ID="SearchByListBox" SelectionMode="Single" CssClass="ub-book-select-input" runat="server">
+                            <asp:ListItem Selected="True" Text="ISBN" Value="ISBN"/>
+                            <asp:ListItem Selected="False" Text="Title" Value="Title"/>
+                            <asp:ListItem Selected="False" Text="Author" Value="Author"/>
+                        </asp:DropDownList>
+                        <asp:TextBox ID="SearchByTextBox" TextMode="SingleLine" CssClass="ub-book-text-input" runat="server" placeholder="Use part of ISBN, Title of Author to Search for Books..."/>
+                        <asp:Button ID="SearchByButton" Text="Search Books" CssClass="ub-book-button" runat="server" OnClick="SearchByButton_Click" />
+                    </div>
                 </div>
             </div>
         </div>

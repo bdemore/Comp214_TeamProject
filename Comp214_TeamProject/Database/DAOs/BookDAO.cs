@@ -17,72 +17,11 @@ namespace Comp214_TeamProject.Database.DAOs
         private BookDAO() { }
 
         /// <see cref="GenericDAO{PK, M}"/>
-        protected override string BuildFindAllQueryString()
-        {
-            return "select		book.* " +
-                   ",			publ.PUBLISHER_NAME " +
-                   ",			publ.PUBLISHER_CREATE_DATE " +
-                   ",			STUFF(( " +
-                   "				select		';' " +
-                   "				+			cast(catg.CATEGORY_ID			as VARCHAR)	+	'|' " +
-                   "				+			catg.CATEGORY_NAME							+	'|' " +
-                   "				+			cast(catg.CATEGORY_CREATE_DATE	as VARCHAR) " +
-                   "				from		TBUB_CATEGORIES			catg " +
-                   "				inner join	TBUB_BOOKS_CATEGORIES	boca " +
-                   "				on			boca.CATEGORY_ID		=	catg.CATEGORY_ID " +
-                   "				where		boca.BOOK_ISBN			=	book.BOOK_ISBN " +
-                   "				for	xml	path('')), 1, 1, '' " +
-                   "			)										as	CATEGORIES " +
-                   ",			STUFF(( " +
-                   "				select		';' " +
-                   "				+			cast(auth.AUTHOR_ID				as VARCHAR)	+	'|' " +
-                   "				+			auth.AUTHOR_NAME							+	'|' " +
-                   "				+			cast(auth.AUTHOR_CREATE_DATE	as VARCHAR) " +
-                   "				from		TBUB_AUTHORS		auth " +
-                   "				inner join	TBUB_BOOKS_AUTHORS	boau " +
-                   "				on			boau.AUTHOR_ID		=	auth.AUTHOR_ID " +
-                   "				where		boau.BOOK_ISBN		=	book.BOOK_ISBN " +
-                   "				for	xml	path('')), 1, 1, '' " +
-                   "			)										as	AUTHORS " +
-                   "from		TBUB_BOOKS	book " +
-                   "inner join  TBUB_PUBLISHERS     publ " +
-                   "on          publ.PUBLISHER_ID = book.PUBLISHER_ID " +
-                   "order by	1";
-        }
+        protected override string BuildFindAllSqlServerQueryString() => BuildBookSelectQueryStringSqlServer() + BuildBookOrderByQueryString();
+
 
         /// <see cref="GenericDAO{PK, M}"/>
-        protected override string BuildFindAllOracleQueryString()
-        {
-            return "select		book.* " +
-                   ",			publ.PUBLISHER_NAME " +
-                   ",			publ.PUBLISHER_CREATE_DATE " +
-                   ",			STUFF(( " +
-                   "				select		';' " +
-                   "				+			cast(catg.CATEGORY_ID			as VARCHAR)	+	'|' " +
-                   "				+			catg.CATEGORY_NAME							+	'|' " +
-                   "				+			cast(catg.CATEGORY_CREATE_DATE	as VARCHAR) " +
-                   "				from		TBUB_CATEGORIES			catg " +
-                   "				inner join	TBUB_BOOKS_CATEGORIES	boca " +
-                   "				on			boca.CATEGORY_ID		=	catg.CATEGORY_ID " +
-                   "				where		boca.BOOK_ISBN			=	book.BOOK_ISBN " +
-                   "				for	xml	path('')), 1, 1, '' " +
-                   "			)										as	CATEGORIES " +
-                   ",			STUFF(( " +
-                   "				select		';' " +
-                   "				+			cast(auth.AUTHOR_ID				as VARCHAR)	+	'|' " +
-                   "				+			auth.AUTHOR_NAME							+	'|' " +
-                   "				+			cast(auth.AUTHOR_CREATE_DATE	as VARCHAR) " +
-                   "				from		TBUB_AUTHORS		auth " +
-                   "				inner join	TBUB_BOOKS_AUTHORS	boau " +
-                   "				on			boau.AUTHOR_ID		=	auth.AUTHOR_ID " +
-                   "				where		boau.BOOK_ISBN		=	book.BOOK_ISBN " +
-                   "				for	xml	path('')), 1, 1, '' " +
-                   "			)										as	AUTHORS " +
-                   "from		TBUB_BOOKS	book " +
-                   "inner join  TBUB_PUBLISHERS     publ " +
-                   "on          publ.PUBLISHER_ID = book.PUBLISHER_ID " +
-                   "order by	1";
-        }
+        protected override string BuildFindAllOracleQueryString() => BuildSelectQueryStringOracle() + BuildBookOrderByQueryString();
 
         /// <see cref="GenericDAO{PK, M}"/>
         protected override Book CreateObjectFromDataReader(DbDataReader dr)
@@ -139,5 +78,73 @@ namespace Comp214_TeamProject.Database.DAOs
 
             return book;
         }
+
+        /// <summary>
+        /// Builds the select and from clauses for getting books from the SQL Server database.
+        /// </summary>
+        /// <returns>The select string</returns>
+        private string BuildBookSelectQueryStringSqlServer() =>
+               "select		book.* " +
+               ",			publ.PUBLISHER_NAME " +
+               ",			publ.PUBLISHER_CREATE_DATE " +
+               ",			STUFF(( " +
+               "				select		';' " +
+               "				+			cast(catg.CATEGORY_ID			as VARCHAR)	+	'|' " +
+               "				+			catg.CATEGORY_NAME							+	'|' " +
+               "				+			cast(catg.CATEGORY_CREATE_DATE	as VARCHAR) " +
+               "				from		TBUB_CATEGORIES			catg " +
+               "				inner join	TBUB_BOOKS_CATEGORIES	boca " +
+               "				on			boca.CATEGORY_ID		=	catg.CATEGORY_ID " +
+               "				where		boca.BOOK_ISBN			=	book.BOOK_ISBN " +
+               "				for	xml	path('')), 1, 1, '' " +
+               "			)										as	CATEGORIES " +
+               ",			STUFF(( " +
+               "				select		';' " +
+               "				+			cast(auth.AUTHOR_ID				as VARCHAR)	+	'|' " +
+               "				+			auth.AUTHOR_NAME							+	'|' " +
+               "				+			cast(auth.AUTHOR_CREATE_DATE	as VARCHAR) " +
+               "				from		TBUB_AUTHORS		auth " +
+               "				inner join	TBUB_BOOKS_AUTHORS	boau " +
+               "				on			boau.AUTHOR_ID		=	auth.AUTHOR_ID " +
+               "				where		boau.BOOK_ISBN		=	book.BOOK_ISBN " +
+               "				for	xml	path('')), 1, 1, '' " +
+               "			)										as	AUTHORS " +
+               "from		TBUB_BOOKS	book " +
+               "inner join  TBUB_PUBLISHERS     publ " +
+               "on          publ.PUBLISHER_ID = book.PUBLISHER_ID ";
+
+        /// <summary>
+        /// Builds the select and from clauses for getting books from the Oracle database.
+        /// </summary>
+        /// <returns>The select string</returns>
+        private string BuildSelectQueryStringOracle() =>
+               "select		book.* " +
+               ",			publ.PUBLISHER_NAME " +
+               ",			publ.PUBLISHER_CREATE_DATE " +
+               ",           ( " +
+               "    select      listagg(catg.CATEGORY_ID || '|' || catg.CATEGORY_NAME || '|' || to_char(catg.CATEGORY_CREATE_DATE, 'YYYY-MM-DD HH24:MI:SS.FF7'), ';') " +
+               "                within group(order by catg.CATEGORY_ID) " +
+               "    from        TBUB_CATEGORIES         catg " +
+               "    inner join  TBUB_BOOKS_CATEGORIES   boca " +
+               "    on          boca.CATEGORY_ID        =   catg.CATEGORY_ID " +
+               "    where       boca.BOOK_ISBN          =   book.BOOK_ISBN " +
+               ")                                       as CATEGORIES " +
+               ",           ( " +
+               "    select      listagg(auth.AUTHOR_ID || '|' || auth.AUTHOR_NAME || '|' || to_char(auth.AUTHOR_CREATE_DATE, 'YYYY-MM-DD HH24:MI:SS.FF7'), ';') " +
+               "                within group(order by auth.AUTHOR_ID) " +
+               "    from        TBUB_AUTHORS        auth " +
+               "    inner join  TBUB_BOOKS_AUTHORS  boau " +
+               "    on          boau.AUTHOR_ID      =   auth.AUTHOR_ID " +
+               "    where       boau.BOOK_ISBN      =   book.BOOK_ISBN " +
+               ")                                       as AUTHORS " +
+               "from		TBUB_BOOKS          book " +
+               "inner join  TBUB_PUBLISHERS     publ " +
+               "on          publ.PUBLISHER_ID = book.PUBLISHER_ID ";
+
+        /// <summary>
+        /// Builds the order by clause for getting books from the database.
+        /// </summary>
+        /// <returns>The order by clause</returns>
+        private string BuildBookOrderByQueryString() => "order by	book.BOOK_TITLE";
     }
 }

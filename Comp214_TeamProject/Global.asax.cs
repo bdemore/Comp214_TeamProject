@@ -45,19 +45,6 @@ namespace Comp214_TeamProject
             {
                 // Let's get the Oracle String.
                 DatabaseUtils.CNN_STR = WebConfigurationManager.ConnectionStrings["OraCnnStr"].ConnectionString;
-
-                try
-                {
-                    // Tries the first connection string.
-                    using (OracleConnection cnn = new OracleConnection(DatabaseUtils.CNN_STR))
-                    {
-                        cnn.Open();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    string s = ex.Message;
-                }
             }
         }
     }

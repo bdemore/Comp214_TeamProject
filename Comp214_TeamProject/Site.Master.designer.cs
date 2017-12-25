@@ -13,6 +13,33 @@ namespace Comp214_TeamProject {
     public partial class SiteMaster {
         
         /// <summary>
+        /// SearchByListBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList SearchByListBox;
+        
+        /// <summary>
+        /// SearchByTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox SearchByTextBox;
+        
+        /// <summary>
+        /// SearchByButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button SearchByButton;
+        
+        /// <summary>
         /// MainContent control.
         /// </summary>
         /// <remarks>

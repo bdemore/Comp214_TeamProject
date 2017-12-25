@@ -236,7 +236,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

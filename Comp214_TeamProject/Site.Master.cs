@@ -9,5 +9,10 @@ namespace Comp214_TeamProject
         {
 
         }
+
+        protected void SearchByButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

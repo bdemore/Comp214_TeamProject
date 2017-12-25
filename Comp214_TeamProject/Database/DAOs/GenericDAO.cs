@@ -8,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace Comp214_TeamProject.Database.DAOs
 {
@@ -33,11 +31,11 @@ namespace Comp214_TeamProject.Database.DAOs
         {
             if (CNN_TYPE_SQLSVR == DatabaseUtils.DB_CFG)
             {
-                return FindAllSqlServer(BuildFindAllQueryString());
+                return FindByQuerySqlServer(BuildFindAllSqlServerQueryString());
             }
             else
             {
-                return FindAllOracleServer(BuildFindAllOracleQueryString());
+                return FindByQueryOracle(BuildFindAllOracleQueryString());
             }
         }
 
@@ -52,7 +50,7 @@ namespace Comp214_TeamProject.Database.DAOs
         /// for the FindAll method.
         /// </summary>
         /// <returns>The build query string.</returns>
-        protected abstract string BuildFindAllQueryString();
+        protected abstract string BuildFindAllSqlServerQueryString();
 
         /// <summary>
         /// Method that will be implemented by chikd classes in order to provide the correct query
@@ -73,7 +71,7 @@ namespace Comp214_TeamProject.Database.DAOs
         /// <param name="queryString">The query to be executed</param>
         /// <exception cref="DatabaseException">If an error occurs when trying to retrieve the data from the database.</exception>
         /// <returns>The list of objects populated with the database data.</returns>
-        private List<M> FindAllSqlServer(string queryString)
+        private List<M> FindByQuerySqlServer(string queryString)
         {
             var objectList = new List<M>();
 
@@ -112,7 +110,7 @@ namespace Comp214_TeamProject.Database.DAOs
         /// <param name="queryString">The query to be executed</param>
         /// <exception cref="DatabaseException">If an error occurs when trying to retrieve the data from the database.</exception>
         /// <returns>The list of objects populated with the database data.</returns>
-        private List<M> FindAllOracleServer(string queryString)
+        private List<M> FindByQueryOracle(string queryString)
         {
             var objectList = new List<M>();
 
