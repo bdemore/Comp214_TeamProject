@@ -131,7 +131,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Database\Scripts\OracleScripts.sql" />
+    <Content Include="Database\Scripts\OracleScript.sql" />
+    <Content Include="Database\Scripts\SQLServerScript.sql" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
