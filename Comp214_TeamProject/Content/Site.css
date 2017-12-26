@@ -43,7 +43,7 @@ footer {
     .ub-book-select-input,
     .ub-book-text-input {
         height: 35px;
-        font-size: 16pt;
+        font-size: 14pt;
         font-weight: bold;
     }
 
@@ -54,12 +54,12 @@ footer {
     }
 
     .ub-book-text-input {
-        width: 500px;
+        width: 450px;
     }
 
     .ub-book-button {
         height: 35px;
-        font-size: 16pt;
+        font-size: 14pt;
         font-weight: bold;
         color: #fff;
     }
@@ -179,4 +179,9 @@ footer {
     border: 2px solid #213140;
     border-radius: 8px;
     color: #fff;
+}
+
+.ub-book-signin-register ul {
+    float: right;
+    margin-right: -50px;
 }

@@ -198,6 +198,7 @@
     <Compile Include="Database\Models\PrimaryKeys\GenericPrimaryKey.cs" />
     <Compile Include="Database\Models\Publisher.cs" />
     <Compile Include="Database\QueryPage.cs" />
+    <Compile Include="Database\QueryParameter.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -16,12 +16,25 @@ namespace Comp214_TeamProject.Database.DAOs
         /// </summary>
         private BookDAO() { }
 
+        /// <see cref="IBookDAO"/>
+        public List<Book> FindBooksByFilter(string filterType, string filterValue)
+        {
+            if (!DatabaseUtils.IsOracle())
+            {
+                return FindByQuerySqlServer(BuildFindByFilterSqlServerQueryString(filterType, filterValue), new QueryParameter("@Parameter", filterValue));
+            }
+            else
+            {
+                return FindByQueryOracle(BuildFindByFilterOracleQueryString(filterType, filterValue), new QueryParameter("Parameter", filterValue));
+            }
+        }
+
         /// <see cref="GenericDAO{PK, M}"/>
         protected override string BuildFindAllSqlServerQueryString() => BuildBookSelectQueryStringSqlServer() + BuildBookOrderByQueryString();
 
 
         /// <see cref="GenericDAO{PK, M}"/>
-        protected override string BuildFindAllOracleQueryString() => BuildSelectQueryStringOracle() + BuildBookOrderByQueryString();
+        protected override string BuildFindAllOracleQueryString() => BuildBookSelectQueryStringOracle() + BuildBookOrderByQueryString();
 
         /// <see cref="GenericDAO{PK, M}"/>
         protected override Book CreateObjectFromDataReader(DbDataReader dr)
@@ -80,6 +93,26 @@ namespace Comp214_TeamProject.Database.DAOs
         }
 
         /// <summary>
+        /// Builds the query string to be used by the given filter.
+        /// </summary>
+        /// <param name="filterType">The filter type: ISBN, Author or Title</param>
+        /// <returns></returns>
+        private string BuildFindByFilterSqlServerQueryString(string filterType, string filterValue) =>
+            BuildBookSelectQueryStringSqlServer() +
+            BuildBookWhereQueryString(filterType, filterValue) +
+            BuildBookOrderByQueryString();
+
+        /// <summary>
+        /// Builds the query string to be used by the given filter.
+        /// </summary>
+        /// <param name="filterType">The filter type: ISBN, Author or Title</param>
+        /// <returns></returns>
+        private string BuildFindByFilterOracleQueryString(string filterType, string filterValue) =>
+            BuildBookSelectQueryStringOracle() +
+            BuildBookWhereQueryString(filterType, filterValue) +
+            BuildBookOrderByQueryString();
+
+        /// <summary>
         /// Builds the select and from clauses for getting books from the SQL Server database.
         /// </summary>
         /// <returns>The select string</returns>
@@ -117,7 +150,7 @@ namespace Comp214_TeamProject.Database.DAOs
         /// Builds the select and from clauses for getting books from the Oracle database.
         /// </summary>
         /// <returns>The select string</returns>
-        private string BuildSelectQueryStringOracle() =>
+        private string BuildBookSelectQueryStringOracle() =>
                "select		book.* " +
                ",			publ.PUBLISHER_NAME " +
                ",			publ.PUBLISHER_CREATE_DATE " +
@@ -146,5 +179,48 @@ namespace Comp214_TeamProject.Database.DAOs
         /// </summary>
         /// <returns>The order by clause</returns>
         private string BuildBookOrderByQueryString() => "order by	book.BOOK_TITLE";
+
+        /// <summary>
+        /// Builds the where clause depending on the type of fielter passed as parameter.
+        /// </summary>
+        /// <param name="filterType">The type of the filter: ISBN, Author or Title</param>
+        /// <param name="filterValue">The value to be used</param>
+        /// <returns>The where clause.</returns>
+        private string BuildBookWhereQueryString(string filterType, string filterValue)
+        {
+            bool isOracle = DatabaseUtils.IsOracle();
+            string concatSymbol = isOracle ? "||" : "+";
+            string parameterName = isOracle ? ":Parameter" : "@Parameter";
+
+            if (!string.IsNullOrWhiteSpace(filterValue))
+            {
+                switch (filterType)
+                {
+                    case "ISBN":
+                        if (isOracle)
+                        {
+                            return "where to_char(book.BOOK_ISBN) like '%' " + concatSymbol + " " + parameterName + " " + concatSymbol + " '%' ";
+                        }
+                        else
+                        {
+                            return "where cast(book.BOOK_ISBN as varchar) like '%' " + concatSymbol + " " + parameterName + " " + concatSymbol + " '%' ";
+                        }
+
+                    case "Author":
+                        return "where exists( " +
+                               "    select     1 " +
+                               "    from       TBUB_BOOKS_AUTHORS boau " +
+                               "    inner join TBUB_AUTHORS       auth " +
+                               "    on         auth.AUTHOR_ID     = boau.AUTHOR_ID " +
+                               "    where      boau.BOOK_ISBN     = book.BOOK_ISBN " +
+                               "    and        auth.AUTHOR_NAME   like '%' " + concatSymbol + " " + parameterName + " " + concatSymbol + " '%' " +
+                               ")";
+                    case "Title":
+                        return "where book.BOOK_TITLE like '%' " + concatSymbol + " " + parameterName + " " + concatSymbol + " '%' ";
+                }
+            }
+
+            return "";
+        }
     }
 }

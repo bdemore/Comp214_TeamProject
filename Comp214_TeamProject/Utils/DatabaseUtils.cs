@@ -1,7 +1,10 @@
-﻿using Comp214_TeamProject.Database.Models;
+﻿using Comp214_TeamProject.Database;
+using Comp214_TeamProject.Database.Models;
 using Comp214_TeamProject.Database.Models.PrimaryKeys;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Globalization;
 
 namespace Comp214_TeamProject.Utils
@@ -130,9 +133,49 @@ namespace Comp214_TeamProject.Utils
         /// Checks if the configuration is set to Oracle server.
         /// </summary>
         /// <returns>true if the configuration is set to Oracle.</returns>
-        private static bool IsOracle()
+        public static bool IsOracle()
         {
             return "ORACLE" == DB_CFG;
+        }
+
+        /// <summary>
+        /// Adds a parameter to the SQL Server command passed as parameter.
+        /// </summary>
+        /// <param name="command">The command to be used.</param>
+        /// <param name="parameter">The parameter to be passed.</param>
+        public static void AddCommandParameter(SqlCommand command, QueryParameter parameter)
+        {
+            if (null != parameter)
+            {
+                if (null != parameter.Value)
+                {
+                    command.Parameters.AddWithValue(parameter.Name, parameter.Value);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue(parameter.Name, DBNull.Value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a parameter to the Oracle command passed as parameter.
+        /// </summary>
+        /// <param name="command">The command to be used.</param>
+        /// <param name="parameter">The parameter to be passed.</param>
+        public static void AddCommandParameter(OracleCommand command, QueryParameter parameter)
+        {
+            if (null != parameter)
+            {
+                if (null != parameter.Value)
+                {
+                    command.Parameters.Add(parameter.Name, parameter.Value);
+                }
+                else
+                {
+                    command.Parameters.Add(parameter.Name, DBNull.Value);
+                }
+            }
         }
     }
 }

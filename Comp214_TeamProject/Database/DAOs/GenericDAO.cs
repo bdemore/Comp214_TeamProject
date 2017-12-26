@@ -20,16 +20,13 @@ namespace Comp214_TeamProject.Database.DAOs
         where PK : GenericPrimaryKey
         where M : GenericModel<PK>, new()
     {
-        // SQL Server connection type.
-        protected const string CNN_TYPE_SQLSVR = "SQLSVR";
-
         // The database connection string for SQL Server.
         protected string cnnStr = DatabaseUtils.CNN_STR;
 
         /// <see cref="IGenericDAO{PK, M}"/>
         public List<M> FindAll()
         {
-            if (CNN_TYPE_SQLSVR == DatabaseUtils.DB_CFG)
+            if (!DatabaseUtils.IsOracle())
             {
                 return FindByQuerySqlServer(BuildFindAllSqlServerQueryString());
             }
@@ -66,12 +63,12 @@ namespace Comp214_TeamProject.Database.DAOs
         protected abstract M CreateObjectFromDataReader(DbDataReader dataReader);
 
         /// <summary>
-        /// Finds all the database objects for the given type using SQL Server database.
+        /// Finds the database objects determined by the query string passed using SQL Server database.
         /// </summary>
         /// <param name="queryString">The query to be executed</param>
         /// <exception cref="DatabaseException">If an error occurs when trying to retrieve the data from the database.</exception>
         /// <returns>The list of objects populated with the database data.</returns>
-        private List<M> FindByQuerySqlServer(string queryString)
+        protected List<M> FindByQuerySqlServer(string queryString)
         {
             var objectList = new List<M>();
 
@@ -105,12 +102,57 @@ namespace Comp214_TeamProject.Database.DAOs
         }
 
         /// <summary>
-        /// Finds all the database objects for the given type using SQL Server database.
+        /// Finds the database objects determined by the query string and parameters passed using SQL Server database.
+        /// </summary>
+        /// <param name="queryString">The query to be executed</param>
+        /// <param name="parameters">The parameters to be used.</param>
+        /// <exception cref="DatabaseException">If an error occurs when trying to retrieve the data from the database.</exception>
+        /// <returns>The list of objects populated with the database data.</returns>
+        protected List<M> FindByQuerySqlServer(string queryString, params QueryParameter[] parameters)
+        {
+            var objectList = new List<M>();
+
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(cnnStr))
+                {
+                    using (SqlCommand cmd = new SqlCommand(queryString, cnn))
+                    {
+                        foreach (QueryParameter parameter in parameters)
+                        {
+                            DatabaseUtils.AddCommandParameter(cmd, parameter);
+                        }
+
+                        cnn.Open();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    objectList.Add(CreateObjectFromDataReader(reader));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseException("An error has occurred when searching for records on a SQL Server database.", ex);
+            }
+
+            return objectList;
+        }
+
+        /// <summary>
+        /// Finds the database objects determined by the query string passed using Oracle database.
         /// </summary>
         /// <param name="queryString">The query to be executed</param>
         /// <exception cref="DatabaseException">If an error occurs when trying to retrieve the data from the database.</exception>
         /// <returns>The list of objects populated with the database data.</returns>
-        private List<M> FindByQueryOracle(string queryString)
+        protected List<M> FindByQueryOracle(string queryString)
         {
             var objectList = new List<M>();
 
@@ -120,6 +162,50 @@ namespace Comp214_TeamProject.Database.DAOs
                 {
                     using (OracleCommand cmd = new OracleCommand(queryString, cnn))
                     {
+                        cnn.Open();
+
+                        using (OracleDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    objectList.Add(CreateObjectFromDataReader(reader));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseException("An error has occurred when searching for records on a SQL Server database.", ex);
+            }
+
+            return objectList;
+        }
+
+        /// <summary>
+        /// Finds the database objects determined by the query string and parameters passed using Oracle database.
+        /// </summary>
+        /// <param name="queryString">The query to be executed</param>
+        /// <exception cref="DatabaseException">If an error occurs when trying to retrieve the data from the database.</exception>
+        /// <returns>The list of objects populated with the database data.</returns>
+        protected List<M> FindByQueryOracle(string queryString, params QueryParameter[] parameters)
+        {
+            var objectList = new List<M>();
+
+            try
+            {
+                using (OracleConnection cnn = new OracleConnection(cnnStr))
+                {
+                    using (OracleCommand cmd = new OracleCommand(queryString, cnn))
+                    {
+                        foreach (QueryParameter parameter in parameters)
+                        {
+                            DatabaseUtils.AddCommandParameter(cmd, parameter);
+                        }
+
                         cnn.Open();
 
                         using (OracleDataReader reader = cmd.ExecuteReader())
