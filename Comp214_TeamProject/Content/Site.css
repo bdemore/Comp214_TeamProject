@@ -4,6 +4,7 @@ body {
     padding-bottom: 20px;
     font-family: Calibri;
     font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 footer {
@@ -63,6 +64,14 @@ footer {
         font-weight: bold;
         color: #fff;
     }
+
+    .ub-book-user-name {
+        margin-left: 90px;
+    }
+
+    .ub-book-signin-register ul {
+        margin-right: -25px;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -88,11 +97,15 @@ footer {
     }
 
     .ub-book-text-input {
-        width: 275px;
+        width: 355px;
     }
-    
+
     .ub-book-content {
         padding-bottom: 30px;
+    }
+
+    .nav li {
+        display: inline-block;
     }
 }
 
@@ -108,7 +121,8 @@ footer {
 
     .navbar-inverse .navbar-nav > li > a {
         color: #000000;
-        font-weight: bolder;
+        font-size: 13pt;
+        font-weight: bold;
     }
 
     .navbar-inverse .navbar-toggle {
@@ -136,6 +150,9 @@ footer {
 
 .ub-container {
     padding-top: 30px;
+    margin-bottom: 25px;
+    display: block;
+    overflow: auto;
 }
 
 .ub-book-content {
@@ -143,11 +160,14 @@ footer {
     overflow: auto;
     margin-bottom: 30px;
     border-bottom: 1px solid #e5e5e5;
+    background-color: #ffffff;
+    padding: 20px 0 10px 0;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
 }
 
 .ub-boook-name > a {
     color: #61705a;
-    font-weight: bold;
 }
 
 .ub-book-image {
@@ -159,8 +179,14 @@ footer {
     height: 218px;
 }
 
+.ub-book-bar-content {
+    float: left;
+    margin-left: -20px;
+}
+
 .ub-book-search-bar {
     padding-top: 7px;
+    width: 110%;
 }
 
 .ub-book-select-input,
@@ -181,7 +207,12 @@ footer {
     color: #fff;
 }
 
+.ub-book-user-name {
+    float: left;
+    font-size: 13pt;
+    padding-top: 15px;
+}
+
 .ub-book-signin-register ul {
     float: right;
-    margin-right: -50px;
 }

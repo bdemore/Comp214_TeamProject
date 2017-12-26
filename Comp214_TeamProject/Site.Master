@@ -50,24 +50,29 @@
                     <a class="navbar-brand" runat="server" href="~/?showAll=true">
                         <img src="Images/logo.png" class="ub-nav-bar-logo"/>
                     </a>
+                    <div class="ub-book-search-bar">
+                        <asp:DropDownList ID="SearchByDropDownList" SelectionMode="Single" CssClass="ub-book-select-input" runat="server">
+                            <asp:ListItem Selected="True" Text="Title" Value="Title"/>
+                            <asp:ListItem Selected="False" Text="Author" Value="Author"/>
+                            <asp:ListItem Selected="False" Text="ISBN" Value="ISBN"/>
+                        </asp:DropDownList>
+                        <asp:TextBox ID="SearchByTextBox" TextMode="SingleLine" CssClass="ub-book-text-input" ValidationGroup="SearchGroup" runat="server" placeholder="Use part of ISBN, Title of Author to Search for Books..."/>
+                        <asp:Button ID="SearchByButton" Text="Search Books" CssClass="ub-book-button" ValidationGroup="SearchGroup" runat="server" OnClick="SearchByButton_Click" />
+                    </div>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <div class="col-sm-11" style="float: right;">
-                        <div class="col-sm-9 ub-book-search-bar">
-                            <asp:DropDownList ID="SearchByDropDownList" SelectionMode="Single" CssClass="ub-book-select-input" runat="server">
-                                <asp:ListItem Selected="True" Text="Title" Value="Title"/>
-                                <asp:ListItem Selected="False" Text="Author" Value="Author"/>
-                                <asp:ListItem Selected="False" Text="ISBN" Value="ISBN"/>
-                            </asp:DropDownList>
-                            <asp:TextBox ID="SearchByTextBox" TextMode="SingleLine" CssClass="ub-book-text-input" ValidationGroup="SearchGroup" runat="server" placeholder="Use part of ISBN, Title of Author to Search for Books..."/>
-                            <asp:Button ID="SearchByButton" Text="Search Books" CssClass="ub-book-button" ValidationGroup="SearchGroup" runat="server" OnClick="SearchByButton_Click" />
-                        </div>
-                        <div class="col-sm-3 ub-book-signin-register">
-                            <ul class="nav navbar-nav">
-                                <li><a runat="server" href="~/Login">Login</a></li>
-                                <li><a runat="server" href="~/Register">Register</a></li>
-                            </ul>
-                        </div>
+                    <div class="ub-book-user-name">
+                        <% if (!string.IsNullOrWhiteSpace(Session["IsLoggedIn"] as string)) { %>
+                            <span>Hello, Rodrigo da Silva!</span>
+                        <% } else { %>
+                            <span>&nbsp;</span>
+                        <% } %>
+                    </div>
+                    <div class="ub-book-signin-register">
+                        <ul class="nav navbar-nav">
+                            <li><a runat="server" href="~/Login">Login</a></li>
+                            <li><a runat="server" href="~/Register">Register</a></li>
+                        </ul>
                     </div>
                     <div class="col-sm-12">
                         <asp:RequiredFieldValidator ID="SearchByTextBox_RequiredFieldValidator" ControlToValidate="SearchByTextBox" ValidationGroup="SearchGroup" CssClass="ub-book-search-validator" runat="server" />
