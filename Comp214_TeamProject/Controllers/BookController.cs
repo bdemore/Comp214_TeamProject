@@ -1,5 +1,6 @@
 ﻿using Comp214_TeamProject.Database.DAOs;
 using Comp214_TeamProject.Database.Models;
+using Comp214_TeamProject.Database.Models.PrimaryKeys;
 using System.Collections.Generic;
 
 namespace Comp214_TeamProject.Controllers
@@ -16,16 +17,22 @@ namespace Comp214_TeamProject.Controllers
         {
         }
 
-        /// <see cref="IBookController"/>
+        /// <see cref="IUserController"/>
         public List<Book> RetrieveAllBooks()
         {
             return bookDAO.FindAll();
         }
 
-        /// <see cref="IBookController"/>
+        /// <see cref="IUserController"/>
         public List<Book> RetrivedBooksByFilter(string filterType, string filterValue)
         {
             return bookDAO.FindBooksByFilter(filterType, filterValue);
+        }
+
+        /// <see cref="IUserController"/>
+        public Book RetrieveBookDetails(string isbn, List<Book> books)
+        {
+            return books.Find(b => b.PrimaryKey.Equals(new DecimalPrimaryKey(decimal.Parse(isbn))));
         }
     }
 }

@@ -3,6 +3,7 @@ using Comp214_TeamProject.Database.Models;
 using Comp214_TeamProject.Database.Models.PrimaryKeys;
 using Oracle.ManagedDataAccess.Client;
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -147,13 +148,37 @@ namespace Comp214_TeamProject.Utils
         {
             if (null != parameter)
             {
-                if (null != parameter.Value)
+                if (parameter.IsInput())
                 {
-                    command.Parameters.AddWithValue(parameter.Name, parameter.Value);
+                    if (null != parameter.Value)
+                    {
+                        if (parameter.DbSize > 0)
+                        {
+                            command.Parameters.Add(parameter.Name, DbTypeToSqlDbType(parameter.DbType), parameter.DbSize).Value = parameter.Value;
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue(parameter.Name, parameter.Value);
+                        }
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue(parameter.Name, DBNull.Value);
+                    }
                 }
-                else
+                else if (parameter.IsInputOutput() || parameter.IsOutput())
                 {
-                    command.Parameters.AddWithValue(parameter.Name, DBNull.Value);
+                    if (parameter.DbType == Database.DbType.DECIMAL)
+                    {
+                        command.Parameters.Add(parameter.Name, DbTypeToSqlDbType(parameter.DbType)).Precision = (byte)parameter.DbSize;
+                        command.Parameters[parameter.Name].Direction = parameter.Direction;
+                    }
+                    else
+                    {
+                        command.Parameters.Add(parameter.Name, DbTypeToSqlDbType(parameter.DbType), parameter.DbSize);
+                        command.Parameters[parameter.Name].Direction = parameter.Direction;
+                    }
+
                 }
             }
         }
@@ -167,15 +192,98 @@ namespace Comp214_TeamProject.Utils
         {
             if (null != parameter)
             {
-                if (null != parameter.Value)
+                if (parameter.IsInput())
                 {
-                    command.Parameters.Add(parameter.Name, parameter.Value);
+                    if (null != parameter.Value)
+                    {
+                        if (parameter.DbSize > 0)
+                        {
+                            command.Parameters.Add(parameter.Name, DbTypeToOracleDbType(parameter.DbType), parameter.DbSize).Value = parameter.Value;
+                        }
+                        else
+                        {
+                            command.Parameters.Add(parameter.Name, parameter.Value);
+                        }
+                    }
+                    else
+                    {
+                        command.Parameters.Add(parameter.Name, DBNull.Value);
+                    }
                 }
-                else
+                else if (parameter.IsInputOutput() || parameter.IsOutput())
                 {
-                    command.Parameters.Add(parameter.Name, DBNull.Value);
+                    if (parameter.DbType == Database.DbType.DECIMAL)
+                    {
+                        command.Parameters.Add(parameter.Name, DbTypeToOracleDbType(parameter.DbType), parameter.Direction).Precision = (byte) parameter.DbSize;
+                    }
+                    else
+                    {
+                        command.Parameters.Add(parameter.Name, DbTypeToOracleDbType(parameter.DbType), parameter.DbSize).Direction = parameter.Direction;
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// Converts the given DbType to a SqlDbType.
+        /// </summary>
+        /// <param name="dbType">The type to be converted.</param>
+        /// <returns>The converted Type.</returns>
+        private static SqlDbType DbTypeToSqlDbType(Database.DbType dbType)
+        {
+            switch(dbType)
+            {
+                case Database.DbType.BIT:
+                    return SqlDbType.Bit;
+
+                case Database.DbType.CHAR:
+                    return SqlDbType.Char;
+
+                case Database.DbType.DATE:
+                    return SqlDbType.Date;
+
+                case Database.DbType.DATETIME:
+                    return SqlDbType.DateTime2;
+
+                case Database.DbType.DECIMAL:
+                    return SqlDbType.Decimal;
+
+                case Database.DbType.VARCHAR:
+                    return SqlDbType.VarChar;
+            }
+
+            return SqlDbType.VarChar;
+        }
+
+        /// <summary>
+        /// Converts the given DbType to an OracleDbType.
+        /// </summary>
+        /// <param name="dbType">The type to be converted.</param>
+        /// <returns>The converted Type.</returns>
+        private static OracleDbType DbTypeToOracleDbType(Database.DbType dbType)
+        {
+            switch (dbType)
+            {
+                case Database.DbType.BIT:
+                    return OracleDbType.Decimal;
+
+                case Database.DbType.CHAR:
+                    return OracleDbType.Char;
+
+                case Database.DbType.DATE:
+                    return OracleDbType.Date;
+
+                case Database.DbType.DATETIME:
+                    return OracleDbType.TimeStamp;
+
+                case Database.DbType.DECIMAL:
+                    return OracleDbType.Decimal;
+
+                case Database.DbType.VARCHAR:
+                    return OracleDbType.Varchar2;
+            }
+
+            return OracleDbType.Varchar2;
         }
     }
 }

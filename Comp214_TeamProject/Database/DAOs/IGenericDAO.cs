@@ -25,5 +25,12 @@ namespace Comp214_TeamProject.Database.DAOs
         /// <param name="queryPage">The class containing the pagination definition for the query.</param>
         /// <returns>The list of elements defined by the queryPage parameter.</returns>
         List<M> FindPaged(QueryPage queryPage);
+
+        /// <summary>
+        /// Method used to execute a procedure.
+        /// </summary>
+        /// <param name="procedureName">The procedure name.</param>
+        /// <param name="parameters">The list of parameters to be passed.</param>
+        void ExecuteProcedure(string procedureName, params QueryParameter[] parameters);
     }
 }

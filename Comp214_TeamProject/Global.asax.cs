@@ -1,5 +1,4 @@
 ﻿using Comp214_TeamProject.Utils;
-using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data.SqlClient;
 using System.Web;
@@ -46,6 +45,11 @@ namespace Comp214_TeamProject
                 // Let's get the Oracle String.
                 DatabaseUtils.CNN_STR = WebConfigurationManager.ConnectionStrings["OraCnnStr"].ConnectionString;
             }
+        }
+
+        void Session_End(object sender, EventArgs e)
+        {
+            Session["LoggedUser"] = null;
         }
     }
 }

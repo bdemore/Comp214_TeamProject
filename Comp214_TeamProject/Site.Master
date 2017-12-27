@@ -1,5 +1,7 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Comp214_TeamProject.SiteMaster" %>
 
+<%@ Import namespace="Comp214_TeamProject.Database.Models" %>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -62,8 +64,8 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <div class="ub-book-user-name">
-                        <% if (!string.IsNullOrWhiteSpace(Session["IsLoggedIn"] as string)) { %>
-                            <span>Hello, Rodrigo da Silva!</span>
+                        <% if (null != Session["LoggedUser"]) { %>
+                            <span>Hello, <%= (Session["LoggedUser"] as User).FirstName %></span>
                         <% } else { %>
                             <span>&nbsp;</span>
                         <% } %>

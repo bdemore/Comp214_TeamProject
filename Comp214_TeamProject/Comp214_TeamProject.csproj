@@ -195,10 +195,15 @@
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\GenericController.cs" />
     <Compile Include="Controllers\IBookController.cs" />
+    <Compile Include="Controllers\IUserController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Database\DAOs\BookDAO.cs" />
     <Compile Include="Database\DAOs\GenericDAO.cs" />
     <Compile Include="Database\DAOs\IBookDAO.cs" />
     <Compile Include="Database\DAOs\IGenericDAO.cs" />
+    <Compile Include="Database\DAOs\IUserDAO.cs" />
+    <Compile Include="Database\DAOs\UserDAO.cs" />
+    <Compile Include="Database\DbType.cs" />
     <Compile Include="Database\Exceptions\DatabaseException.cs" />
     <Compile Include="Database\Models\Author.cs" />
     <Compile Include="Database\Models\Book.cs" />
@@ -208,6 +213,7 @@
     <Compile Include="Database\Models\PrimaryKeys\DecimalPrimaryKey.cs" />
     <Compile Include="Database\Models\PrimaryKeys\GenericPrimaryKey.cs" />
     <Compile Include="Database\Models\Publisher.cs" />
+    <Compile Include="Database\Models\User.cs" />
     <Compile Include="Database\QueryPage.cs" />
     <Compile Include="Database\QueryParameter.cs" />
     <Compile Include="Default.aspx.cs">

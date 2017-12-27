@@ -21,5 +21,13 @@ namespace Comp214_TeamProject.Controllers
         /// <param name="filterValue">The filter value to be used.</param>
         /// <returns>The list of books found or an empty list if no books are found.</returns>
         List<Book> RetrivedBooksByFilter(string filterType, string filterValue);
+
+        /// <summary>
+        /// Method responsible for retrieving details from the book that corresponds the given ISBN.
+        /// </summary>
+        /// <param name="isbn">The ISBN to be searched.</param>
+        /// <param name="books">The list of books to be searched.</param>
+        /// <returns>The book which have the ISBN passed as parameter. Null if no book is found.</returns>
+        Book RetrieveBookDetails(string isbn, List<Book> books);
     }
 }

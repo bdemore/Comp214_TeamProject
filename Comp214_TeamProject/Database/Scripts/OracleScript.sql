@@ -86,6 +86,10 @@ CREATE TABLE TBUB_USERS (
 ,	USER_LAST_NAME
         VARCHAR(64)
         NOT NULL
+,	USER_CREATE_DATE
+        TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL
 );
 
 CREATE TABLE TBUB_BOOK_RENTAL (
@@ -251,11 +255,11 @@ INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781408890769, 
 COMMIT;
 
 CREATE OR REPLACE PROCEDURE SPUB_LOGIN (
-    pInUserEmail        IN  VARCHAR2
-,   pInUserPassword     IN  CHAR
-,   pOutUserId          OUT DECIMAL
-,   pOutUserFirstName   OUT VARCHAR2
-,   pOutUserLastName    OUT VARCHAR2
+    UserEmail        IN  VARCHAR2
+,   UserPassword     IN  CHAR
+,   UserId			 OUT DECIMAL
+,   UserFirstName    OUT VARCHAR2
+,   UserLastName     OUT VARCHAR2
 )
 IS
 BEGIN
@@ -263,25 +267,25 @@ BEGIN
     SELECT  USER_ID
     ,       USER_FIRST_NAME
     ,       USER_LAST_NAME
-    INTO    pOutUserId
-    ,       pOutUserFirstName
-    ,       pOutUserLastName
+    INTO    UserId
+    ,       UserFirstName
+    ,       UserLastName
     FROM    TBUB_USERS
-    WHERE   USER_EMAIL      =   pInUserEmail
-    AND     USER_PASSWORD   =   pInUserPassword;
+    WHERE   USER_EMAIL      =   UserEmail
+    AND     USER_PASSWORD   =   UserPassword;
 EXCEPTION
-    WHEN NO_DATA_FOUND THEN pOutUserId := -1;
+    WHEN NO_DATA_FOUND THEN UserId := -1;
 
 END;
 
 /
 
 CREATE OR REPLACE PROCEDURE SPUB_REGISTER (
-    pInUserEmail        IN  VARCHAR2
-,   pInUserPassword     IN  CHAR
-,   pInUserFirstName    IN  VARCHAR2
-,   pInUserLastName     IN  VARCHAR2
-,   pOutUserId          OUT DECIMAL
+    UserEmail        IN  VARCHAR2
+,   UserPassword     IN  CHAR
+,   UserFirstName    IN  VARCHAR2
+,   UserLastName     IN  VARCHAR2
+,   UserId           OUT DECIMAL
 )
 IS
     lvNumOfUsersWithEmail   DECIMAL(1, 0);
@@ -289,7 +293,7 @@ BEGIN
     SELECT  COUNT(1)
     INTO    lvNumOfUsersWithEmail
     FROM    TBUB_USERS
-    WHERE   USER_EMAIL  =   pInUserEmail;
+    WHERE   USER_EMAIL  =   UserEmail;
     
     IF (lvNumOfUsersWithEmail = 0) THEN
 		INSERT
@@ -299,20 +303,20 @@ BEGIN
 		,	USER_FIRST_NAME
 		,	USER_LAST_NAME
 		) VALUES (
-			pInUserEmail
-		,	pInUserPassword
-		,	pInUserFirstName
-		,	pInUserLastName
+			UserEmail
+		,	UserPassword
+		,	UserFirstName
+		,	UserLastName
 		);
     
         COMMIT;
 
         SELECT  USER_ID
-        INTO    pOutUserId
+        INTO    UserId
         FROM    TBUB_USERS
-        WHERE   USER_EMAIL  =   pInUserEmail;
+        WHERE   USER_EMAIL  =   UserEmail;
     ELSE
-        pOutUserId := -1;
+        UserId := -1;
     END IF;
 END;
 
