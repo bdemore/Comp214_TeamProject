@@ -9,7 +9,10 @@ namespace Comp214_TeamProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["LoggedUser"] = userController.Login("rjdsilv@gmail.com", "Teste1234");
+            if (null == Session["LoggedUser"])
+            {
+                Session["LoggedUser"] = userController.Login("rjdsilv@gmail.com", "Teste1234");
+            }
         }
     }
 }
