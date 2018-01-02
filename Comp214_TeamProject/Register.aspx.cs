@@ -13,5 +13,15 @@ namespace Comp214_TeamProject
         {
 
         }
+
+        protected void RegisterButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ClearButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

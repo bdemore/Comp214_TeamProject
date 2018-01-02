@@ -35,8 +35,8 @@
             <asp:TextBox ID="Phone" runat="server"></asp:TextBox>
         </p>
         <p>Enter another number? <asp:CheckBox ID="CheckBox1" runat="server" /></p>
-        <asp:Button ID="register" runat="server" Text="Register" OnClick="ButtonReg_Click" />
-        <asp:Button ID="clear" runat="server" Text="clear" OnClick="clear_Click" />
+        <asp:Button ID="RegisterButton" runat="server" Text="Register" OnClick="RegisterButton_Click" />
+        <asp:Button ID="ClearButton" runat="server" Text="clear" OnClick="ClearButton_Click" />
 
 </fieldset>
     </div>
