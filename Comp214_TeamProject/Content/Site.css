@@ -2,6 +2,19 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: Calibri;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: #84563f;
+    color: white;
+    padding-top: 10px;
+    font-size: 18px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 /* Wrapping element */
@@ -10,14 +23,6 @@ body {
     padding-left: 15px;
     padding-right: 15px;
 }
-
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -28,4 +33,186 @@ textarea {
     .body-content {
         padding: 0;
     }
+
+    .ub-boook-name {
+        font-size: 17px;
+        margin-top: 10px;
+        text-align: center;
+        height: 50px;
+    }
+
+    .ub-book-select-input,
+    .ub-book-text-input {
+        height: 35px;
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+    .ub-book-select-input {
+        width: 110px;
+        margin-left: 15px;
+        margin-left: 15px;
+    }
+
+    .ub-book-text-input {
+        width: 450px;
+    }
+
+    .ub-book-button {
+        height: 35px;
+        font-size: 14pt;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .ub-book-user-name {
+        margin-left: 90px;
+    }
+
+    .ub-book-signin-register ul {
+        margin-right: -25px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .ub-boook-name {
+        text-align: left;
+        margin-left: -50px;
+        font-size: 20px;
+    }
+
+    .ub-book-image {
+        float: left;
+        height: 100%;
+        display: block;
+        overflow: auto;
+    }
+
+    .ub-book-select-input,
+    .ub-book-text-input,
+    .ub-book-button {
+        height: 30px;
+        font-size: 14px;
+        margin-bottom: 7px;
+    }
+
+    .ub-book-text-input {
+        width: 355px;
+    }
+
+    .ub-book-content {
+        padding-bottom: 30px;
+    }
+
+    .nav li {
+        display: inline-block;
+    }
+}
+
+.navbar-inverse {
+    background-color: #9f887d;
+    border-color: #9f887d;
+    box-shadow: 0 10px 10px #454545;
+}
+
+    .navbar-inverse .navbar-brand {
+        padding: 5px 15px;
+    }
+
+    .navbar-inverse .navbar-nav > li > a {
+        color: #000000;
+        font-size: 13pt;
+        font-weight: bold;
+    }
+
+    .navbar-inverse .navbar-toggle {
+        border-color: #84563f;
+    }
+
+        .navbar-inverse .navbar-toggle:hover {
+            background-color: #84563f;
+        }
+
+        .navbar-inverse .navbar-toggle:focus {
+            background-color: #84563f;
+        }
+
+    .navbar-inverse .navbar-collapse,
+    .navbar-inverse .navbar-form {
+        border-color: #84563f;
+    }
+
+.ub-nav-bar-logo {
+    width: 53px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.ub-container {
+    padding-top: 30px;
+    margin-bottom: 25px;
+    display: block;
+    overflow: auto;
+}
+
+.ub-book-content {
+    display: block;
+    overflow: auto;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #ffffff;
+    padding: 20px 0 10px 0;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
+}
+
+.ub-boook-name > a {
+    color: #61705a;
+}
+
+.ub-book-image {
+    text-align: center;
+}
+
+.ub-book-image-small {
+    width: 218px;
+    height: 218px;
+}
+
+.ub-book-bar-content {
+    float: left;
+    margin-left: -20px;
+}
+
+.ub-book-search-bar {
+    padding-top: 7px;
+    width: 110%;
+}
+
+.ub-book-select-input,
+.ub-book-text-input {
+    background-color: #98af8c;
+    border: 2px solid #61705a;
+    border-radius: 8px;
+}
+
+.ub-book-select-input {
+    width: 110px;
+}
+
+.ub-book-button {
+    background-color: #71a4d6;
+    border: 2px solid #213140;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.ub-book-user-name {
+    float: left;
+    font-size: 13pt;
+    padding-top: 15px;
+}
+
+.ub-book-signin-register ul {
+    float: right;
 }

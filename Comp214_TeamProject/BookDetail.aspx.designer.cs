@@ -11,7 +11,7 @@ namespace Comp214_TeamProject
 {
 
 
-    public partial class About
+    public partial class BookDetail
     {
     }
 }
