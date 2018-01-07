@@ -27,6 +27,9 @@ namespace Comp214_TeamProject.Database.Models
         // The nmber of books available for renting.
         public decimal QuantityAvailable { get; set; }
 
+        // The number of pages in the book.
+        public decimal Pages { get; set; }
+
         // The book's main image to be displayed.
         public string ImageUrl01 { get; set; }
 
@@ -56,6 +59,28 @@ namespace Comp214_TeamProject.Database.Models
 
         // The book's categories.
         public HashSet<Category> Categories { get; set; }
+
+        // Returns the book edition as a string.
+        public string EditionStr
+        {
+            get
+            {
+                if (Edition.ToString().EndsWith("1"))
+                {
+                    return Edition.ToString() + "st Edition";
+                }
+                else if (Edition.ToString().EndsWith("2"))
+                {
+                    return Edition.ToString() + "nd Edition";
+                }
+                else if (Edition.ToString().EndsWith("3"))
+                {
+                    return Edition.ToString() + "rd Edition";
+                }
+
+                return Edition.ToString() + "th Edition";
+            }
+        }
 
         public override bool Equals(object obj)
         {

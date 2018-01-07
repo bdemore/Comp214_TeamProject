@@ -19,7 +19,7 @@ namespace Comp214_TeamProject.Database
         // The parameter Database type.
         public DbType DbType { get; }
 
-        public int DbSize { get;  }
+        public int DbSize { get; }
 
         /// <summary>
         /// Constructor passing the parameter name, type, size, and direction. In this constructor the value will be set later.

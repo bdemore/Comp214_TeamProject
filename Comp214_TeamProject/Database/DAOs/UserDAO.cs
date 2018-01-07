@@ -10,6 +10,9 @@ namespace Comp214_TeamProject.Database.DAOs
     /// </summary>
     public class UserDAO : GenericDAO<DecimalPrimaryKey, User, UserDAO>, IUserDAO
     {
+        /// <summary>
+        /// Default Constructor used by Singleton.
+        /// </summary>
         private UserDAO()
         {
         }
@@ -28,6 +31,7 @@ namespace Comp214_TeamProject.Database.DAOs
             {
                 PrimaryKey = new DecimalPrimaryKey(DatabaseUtils.SafeGetDecimal(dr, "USER_ID")),
                 Email = DatabaseUtils.SafeGetString(dr, "USER_EMAIL"),
+                Role = DatabaseUtils.SafeGetString(dr, "USER_ROLE"),
                 FirstName = DatabaseUtils.SafeGetString(dr, "USER_FIRST_NAME"),
                 LastName = DatabaseUtils.SafeGetString(dr, "USER_LAST_NAME"),
                 CreateDate = DatabaseUtils.SafeGetDateTime(dr, "USER_CREATE_DATE")

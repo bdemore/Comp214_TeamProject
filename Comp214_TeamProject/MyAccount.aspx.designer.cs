@@ -10,7 +10,7 @@
 namespace Comp214_TeamProject {
     
     
-    public partial class BookDetail {
+    public partial class MyAccount {
         
         /// <summary>
         /// ErrorPanel control.
@@ -22,93 +22,75 @@ namespace Comp214_TeamProject {
         protected global::System.Web.UI.WebControls.Panel ErrorPanel;
         
         /// <summary>
-        /// BookImage control.
+        /// TitleLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image BookImage;
+        protected global::System.Web.UI.WebControls.Label TitleLabel;
         
         /// <summary>
-        /// BookUrl01ImageButton control.
+        /// EmailTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BookUrl01ImageButton;
+        protected global::System.Web.UI.WebControls.TextBox EmailTextBox;
         
         /// <summary>
-        /// BookUrl02ImageButton control.
+        /// FirstNameTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BookUrl02ImageButton;
+        protected global::System.Web.UI.WebControls.TextBox FirstNameTextBox;
         
         /// <summary>
-        /// BookUrl03ImageButton control.
+        /// FirstNameTextBox_RFV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BookUrl03ImageButton;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator FirstNameTextBox_RFV;
         
         /// <summary>
-        /// BookUrl04ImageButton control.
+        /// LastNameTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BookUrl04ImageButton;
+        protected global::System.Web.UI.WebControls.TextBox LastNameTextBox;
         
         /// <summary>
-        /// BookUrl05ImageButton control.
+        /// LastNameTextBox_RFV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BookUrl05ImageButton;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator LastNameTextBox_RFV;
         
         /// <summary>
-        /// BookReserveButton control.
+        /// UpdateProfileButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BookReserveButton;
+        protected global::System.Web.UI.WebControls.Button UpdateProfileButton;
         
         /// <summary>
-        /// BookUpdateButton control.
+        /// CancelButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BookUpdateButton;
-        
-        /// <summary>
-        /// BookAuthorRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater BookAuthorRepeater;
-        
-        /// <summary>
-        /// BookCategoryRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater BookCategoryRepeater;
+        protected global::System.Web.UI.WebControls.Button CancelButton;
     }
 }

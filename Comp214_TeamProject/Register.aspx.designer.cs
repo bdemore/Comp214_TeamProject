@@ -13,112 +13,139 @@ namespace Comp214_TeamProject {
     public partial class Register {
         
         /// <summary>
-        /// Image1 control.
+        /// ErrorPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
+        protected global::System.Web.UI.WebControls.Panel ErrorPanel;
         
         /// <summary>
-        /// Fname control.
+        /// TitleLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Fname;
+        protected global::System.Web.UI.WebControls.Label TitleLabel;
         
         /// <summary>
-        /// Lname control.
+        /// FirstNameTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Lname;
+        protected global::System.Web.UI.WebControls.TextBox FirstNameTextBox;
         
         /// <summary>
-        /// Address control.
+        /// FirstNameTextBox_RFV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Address;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator FirstNameTextBox_RFV;
         
         /// <summary>
-        /// City control.
+        /// LastNameTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox City;
+        protected global::System.Web.UI.WebControls.TextBox LastNameTextBox;
         
         /// <summary>
-        /// Province control.
+        /// LastNameTextBox_RFV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Province;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator LastNameTextBox_RFV;
         
         /// <summary>
-        /// Pcode control.
+        /// EmailTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Pcode;
+        protected global::System.Web.UI.WebControls.TextBox EmailTextBox;
         
         /// <summary>
-        /// Password control.
+        /// EmailTextBox_RFV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Password;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator EmailTextBox_RFV;
         
         /// <summary>
-        /// Cpassword control.
+        /// EmailTextBoxRegex_RFV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Cpassword;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator EmailTextBoxRegex_RFV;
         
         /// <summary>
-        /// Email control.
+        /// PasswordTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Email;
+        protected global::System.Web.UI.WebControls.TextBox PasswordTextBox;
         
         /// <summary>
-        /// Phone control.
+        /// PasswordTextBox_RFV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Phone;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator PasswordTextBox_RFV;
         
         /// <summary>
-        /// CheckBox1 control.
+        /// PasswordTextBoxRegex_RFV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox1;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator PasswordTextBoxRegex_RFV;
+        
+        /// <summary>
+        /// ConfirmPasswordTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox ConfirmPasswordTextBox;
+        
+        /// <summary>
+        /// ConfirmPasswordTextBox_RFV control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ConfirmPasswordTextBox_RFV;
+        
+        /// <summary>
+        /// ConfirmPasswordTextBoxCompare_RFV control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator ConfirmPasswordTextBoxCompare_RFV;
         
         /// <summary>
         /// RegisterButton control.
@@ -130,12 +157,12 @@ namespace Comp214_TeamProject {
         protected global::System.Web.UI.WebControls.Button RegisterButton;
         
         /// <summary>
-        /// ClearButton control.
+        /// CancelButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ClearButton;
+        protected global::System.Web.UI.WebControls.Button CancelButton;
     }
 }

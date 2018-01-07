@@ -50,6 +50,7 @@ namespace Comp214_TeamProject.Database.DAOs
                 Edition = DatabaseUtils.SafeGetDecimal(dr, "BOOK_EDITION"),
                 IsAvailable = DatabaseUtils.SafeGetBoolean(dr, "BOOK_IS_AVAILABLE"),
                 QuantityAvailable = DatabaseUtils.SafeGetDecimal(dr, "BOOK_QUANTITY_AVAILABLE"),
+                Pages = DatabaseUtils.SafeGetDecimal(dr, "BOOK_PAGES"),
                 ImageUrl01 = DatabaseUtils.SafeGetString(dr, "BOOK_IMG_URL_01"),
                 ImageUrl02 = DatabaseUtils.SafeGetString(dr, "BOOK_IMG_URL_02"),
                 ImageUrl03 = DatabaseUtils.SafeGetString(dr, "BOOK_IMG_URL_03"),

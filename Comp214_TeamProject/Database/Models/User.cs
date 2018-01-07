@@ -10,6 +10,9 @@ namespace Comp214_TeamProject.Database.Models
         // The user's email.
         public string Email { get; set; }
 
+        // The user Role in the application.
+        public string Role { get; set; }
+
         // The user's password.
         public string Password { get; set; }
 

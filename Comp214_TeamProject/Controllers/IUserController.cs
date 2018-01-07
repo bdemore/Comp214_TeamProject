@@ -24,5 +24,14 @@ namespace Comp214_TeamProject.Controllers
         /// <param name="lastName">The user's last name</param>
         /// <returns>The registered user</returns>
         User Register(string email, string password, string firstName, string lastName);
+
+        /// <summary>
+        /// Updates the profile for the user with the given data in the system.
+        /// </summary>
+        /// <param name="email">The user's email</param>
+        /// <param name="firstName">The user's firsrt name</param>
+        /// <param name="lastName">The user's last name</param>
+        /// <returns>The registered user</returns>
+        User UpdateProfile(string email, string firstName, string lastName);
     }
 }

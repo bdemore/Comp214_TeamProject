@@ -10,24 +10,15 @@
 namespace Comp214_TeamProject {
     
     
-    public partial class _Default {
+    public partial class ReserveDetails {
         
         /// <summary>
-        /// ErrorPanel control.
+        /// ReserveItemRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ErrorPanel;
-        
-        /// <summary>
-        /// BookRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater BookRepeater;
+        protected global::System.Web.UI.WebControls.Repeater ReserveItemRepeater;
     }
 }

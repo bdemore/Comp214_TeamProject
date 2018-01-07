@@ -101,6 +101,9 @@ BEGIN
 	,	USER_LAST_NAME
 			VARCHAR(64)
 			NOT NULL
+	,	USER_ROLE
+			VARCHAR(5)
+			NOT NULL
 	,	USER_CREATE_DATE
 			DATETIME2
 			NOT NULL
@@ -121,9 +124,13 @@ BEGIN
 			DATE
 			NOT NULL
 			DEFAULT GETDATE()
-	,	RENTAL_RETURN_DATE
+	,	RENTAL_DUE_DATE
 			DATE
 			NOT NULL
+			DEFAULT DATEADD(DAY, 7, GETDATE())
+	,	RENTAL_RETURN_DATE
+			DATE
+			NULL
 	,	USER_ID
 			DECIMAL(11)
 			NOT NULL
@@ -156,6 +163,9 @@ BEGIN
 			NOT NULL
 	,	BOOK_QUANTITY_AVAILABLE
 			DECIMAL(3, 0)
+			NOT NULL
+	,	BOOK_PAGES
+			DECIMAL(5, 0)
 			NOT NULL
 	,	BOOK_IMG_URL_01
 			VARCHAR(255)
@@ -259,6 +269,11 @@ BEGIN
 	CREATE INDEX IX_BOOK_RENTAL__USER_ID ON dbo.TBUB_BOOK_RENTAL(USER_ID)
 END
 
+IF (NOT EXISTS(SELECT 1 FROM sys.indexes WHERE NAME = N'IX_BOOK_RENTAL_DETAIL__BOOK_ISBN' AND OBJECT_ID = OBJECT_ID(N'dbo.TBUB_BOOK_RENTAL_DETAIL')))
+BEGIN
+	CREATE INDEX IX_BOOK_RENTAL_DETAIL__BOOK_ISBN ON dbo.TBUB_BOOK_RENTAL_DETAIL(BOOK_ISBN)
+END
+
 IF (NOT EXISTS(SELECT 1 FROM sys.indexes WHERE NAME = N'IX_BOOKS_AUTHORS__AUTHOR_ID' AND OBJECT_ID = OBJECT_ID(N'dbo.TBUB_BOOKS_AUTHORS')))
 BEGIN
 	CREATE INDEX IX_BOOKS_AUTHORS__AUTHOR_ID ON dbo.TBUB_BOOKS_AUTHORS(AUTHOR_ID)
@@ -268,38 +283,121 @@ GO
 /*
  * Inserting Data.
  */
+INSERT INTO	dbo.TBUB_USERS (USER_EMAIL, USER_PASSWORD, USER_FIRST_NAME, USER_LAST_NAME, USER_ROLE, USER_CREATE_DATE)
+VALUES( 'admin_01@admin.com', 'Admin1234', 'Administrator', '01', 'ADMIN', SYSDATETIME())
+
 INSERT INTO TBUB_CATEGORIES(CATEGORY_NAME) VALUES(N'Fantasy')
 INSERT INTO TBUB_CATEGORIES(CATEGORY_NAME) VALUES(N'Magic')
+INSERT INTO TBUB_CATEGORIES(CATEGORY_NAME) VALUES(N'Information Technology')
+INSERT INTO TBUB_CATEGORIES(CATEGORY_NAME) VALUES(N'Artificial Intelligence')
+INSERT INTO TBUB_CATEGORIES(CATEGORY_NAME) VALUES(N'Game Programming')
+INSERT INTO TBUB_CATEGORIES(CATEGORY_NAME) VALUES(N'Mathematics')
 
 INSERT INTO TBUB_AUTHORS(AUTHOR_NAME) VALUES(N'J. K. Rowling')
+INSERT INTO TBUB_AUTHORS(AUTHOR_NAME) VALUES(N'Peter Norvig Stuart J Russell')
+INSERT INTO TBUB_AUTHORS(AUTHOR_NAME) VALUES(N'Jason Gregory')
+INSERT INTO TBUB_AUTHORS(AUTHOR_NAME) VALUES(N'Robert Nystrom')
+INSERT INTO TBUB_AUTHORS(AUTHOR_NAME) VALUES(N'Eric Lengyel')
 
 INSERT INTO TBUB_PUBLISHERS(PUBLISHER_NAME) VALUES(N'Bloomsbury Children''s Books')
+INSERT INTO TBUB_PUBLISHERS(PUBLISHER_NAME) VALUES(N'Pearson India')
+INSERT INTO TBUB_PUBLISHERS(PUBLISHER_NAME) VALUES(N'A K Peters/CRC Press')
+INSERT INTO TBUB_PUBLISHERS(PUBLISHER_NAME) VALUES(N'Genever Benning')
+INSERT INTO TBUB_PUBLISHERS(PUBLISHER_NAME) VALUES(N'Course Technology PTR')
 
-INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_IMG_URL_01, PUBLISHER_ID)
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
 VALUES(
-	9781408845646, N'Harry Potter and the Philosopher''s Stone',
+	9781408845646, N'Harry Potter and the Philosopher''s Stone: Illustrated Edition',
 	N'Prepare to be spellbound by Jim Kay''s dazzling depiction of the wizarding world and much loved characters in this full-colour illustrated hardback edition of the nation''s favourite children''s book – Harry Potter and the Philosopher''s Stone. Brimming with rich detail and humour that perfectly complements J.K. Rowling''s timeless classic, Jim Kay''s glorious illustrations will captivate fans and new readers alike.',
-	'2015-10-06', 1, 1, 10, N'https://images-na.ssl-images-amazon.com/images/I/51sTwK7kBxL._AA218_.jpg', 1)
-INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_IMG_URL_01, PUBLISHER_ID)
+	'2015-10-06', 1, 1, 2, 300, 1,
+	N'https://images-na.ssl-images-amazon.com/images/I/51sTwK7kBxL.jpg', 
+	N'https://images-na.ssl-images-amazon.com/images/I/51bor5867kL.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/A1Zq8UVPX5L.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/A1WzMnxvS4L.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/91oBYD92sIL.jpg')
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
 VALUES(
-	9781408845653, N'Harry Potter and the Chamber of Secrets',
+	9781408845653, N'Harry Potter and the Chamber of Secrets: Illustred Edition',
 	N'Prepare to be spellbound by Jim Kay''s dazzling full-colour illustrations in this stunning new edition of J.K. Rowling''s Harry Potter and the Chamber of Secrets. Breathtaking scenes, dark themes and unforgettable characters await inside this fully illustrated edition. With paint, pencil and pixels, award-winning illustrator Jim Kay conjures the wizarding world as we have never seen it before. Fizzing with magic and brimming with humour, this inspired reimagining will captivate fans and new readers alike, as Harry and his friends, now in their second year at Hogwarts School of Witchcraft and Wizardry, seek out a legendary chamber and the deadly secret that lies at its heart.',
-	'2016-10-04', 1, 1, 10, N'https://images-na.ssl-images-amazon.com/images/I/61+abdOC5gL._AA218_.jpg', 1)
-INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_IMG_URL_01, PUBLISHER_ID)
+	'2016-10-04', 1, 1, 1, 289, 1,
+	N'https://images-na.ssl-images-amazon.com/images/I/61%2BabdOC5gL.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/A1ikEJqTnuL.jpg',
+	NULL,
+	NULL,
+	NULL)
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
 VALUES(
 	9781408845660, N'Harry Potter and the Prisoner of Azkaban',
 	N'An extraordinary creative achievement by an extraordinary talent, Jim Kay''s inspired reimagining of J.K. Rowling''s classic series has captured a devoted following worldwide. This stunning new fully illustrated edition of Harry Potter and the Prisoner of Azkaban brings more breathtaking scenes and unforgettable characters – including Sirius Black, Remus Lupin and Professor Trelawney. With paint, pencil and pixels, Kay conjures the wizarding world as we have never seen it before. Fizzing with magic and brimming with humour, this full-colour edition will captivate fans and new readers alike as Harry, now in his third year at Hogwarts School of Witchcraft and Wizardry, faces Dementors, death omens and, of course, danger.',
-	'2017-10-03', 1, 1, 10, N'https://images-na.ssl-images-amazon.com/images/I/617HC+dtBOL._AA218_.jpg', 1)
-INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_IMG_URL_01, PUBLISHER_ID)
+	'2017-10-03', 1, 1, 3, 334, 1,
+	N'https://images-na.ssl-images-amazon.com/images/I/A1RGxzkX3ML.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/41Lu0KOI3cL.jpg',
+	NULL,
+	NULL,
+	NULL)
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
 VALUES(
 	9781408890769, N'Harry Potter - A History of Magic: The Book of the Exhibition',
 	N'Harry Potter: A History of Magic is the official book of the exhibition, a once-in-a-lifetime collaboration between Bloomsbury, J.K. Rowling and the brilliant curators of the British Library. It promises to take readers on a fascinating journey through the subjects studied at Hogwarts School of Witchcraft and Wizardry - from Alchemy and Potions classes through to Herbology and Care of Magical Creatures.',
-	'2017-10-20', 1, 1, 10, N'https://images-na.ssl-images-amazon.com/images/I/61Lo-+FBs+L._AA218_.jpg', 1)
+	'2017-10-20', 1, 1, 1, 256, 1,
+	N'https://images-na.ssl-images-amazon.com/images/I/61Lo-%2BFBs%2BL.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/51Ck3uTZQEL.jpg',
+	NULL,
+	NULL,
+	NULL)
+
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
+VALUES(
+	9789332543515, N'Artificial Intelligence : A Modern Approach',
+	N'Brand New. Artificial Intlelligence theory book.',
+	'2015-09-12', 3, 1, 5, 795, 2,
+	N'https://images-na.ssl-images-amazon.com/images/I/71MgQIMnAWL.jpg',
+	NULL,
+	NULL,
+	NULL,
+	NULL)
+
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
+VALUES(
+	9781466560017, N'Game Engine Architecture',
+	N'Hailed as a "must-have textbook" (CHOICE, January 2010), the first edition of Game Engine Architecture provided readers with a complete guide to the theory and practice of game engine software development. Updating the content to match today’s landscape of game engine architecture, this second edition continues to thoroughly cover the major components that make up a typical commercial game engine.',
+	'2014-08-15', 2, 1, 2, 1052, 3,
+	N'https://images-na.ssl-images-amazon.com/images/I/51P2wXledgL.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/51wlTrj0q1L.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/41GV0KOj4ZL.jpg',
+	NULL,
+	NULL)
+
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
+VALUES(
+	9780990582908, N'Game Programming Patterns',
+	N'The biggest challenge facing many game programmers is completing their game. Most game projects fizzle out, overwhelmed by the complexity of their own code. Game Programming Patterns tackles that exact problem. Based on years of experience in shipped AAA titles, this book collects proven patterns to untangle and optimize your game, organized as independent recipes so you can pick just the patterns you need.',
+	'2014-11-02', 1, 1, 1, 354, 4,
+	N'https://images-na.ssl-images-amazon.com/images/I/71Kfg2zTisL.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/81NmSfv4NoL.jpg',
+	N'https://images-na.ssl-images-amazon.com/images/I/31mSaO0vaFL.jpg',
+	NULL,
+	NULL)
+
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
+VALUES(
+	9781435458864, N'Mathematics for 3D Game Programming and Computer Graphics',
+	N'This updated third edition illustrates the mathematical concepts that a game developer needs to develop 3D computer graphics and game engines at the professional level. It starts at a fairly basic level in areas such as vector geometry and linear algebra, and then progresses to more advanced topics in 3D programming such as illumination and visibility determination. Particular attention is given to derivations of key results, ensuring that the reader is not forced to endure gaps in the theory. The book assumes a working knowledge of trigonometry and calculus, but also includes sections that review the important tools used from these disciplines, such as trigonometric identities, differential equations, and Taylor series.',
+	'2011-07-02', 3, 1, 3, 624, 5,
+	N'https://images-na.ssl-images-amazon.com/images/I/61k9lBQjfWL.jpg',
+	NULL,
+	NULL,
+	NULL,
+	NULL)
 
 INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9781408845646, 1)
 INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9781408845653, 1)
 INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9781408845660, 1)
 INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9781408890769, 1)
+INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9789332543515, 2)
+INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9781466560017, 3)
+INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9780990582908, 4)
+INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9781435458864, 5)
 
 INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781408845646, 1)
 INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781408845646, 2)
@@ -309,6 +407,45 @@ INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781408845660, 
 INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781408845660, 2)
 INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781408890769, 1)
 INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781408890769, 2)
+INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9789332543515, 3)
+INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9789332543515, 4)
+INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781466560017, 3)
+INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781466560017, 5)
+INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781435458864, 3)
+INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781435458864, 5)
+INSERT INTO TBUB_BOOKS_CATEGORIES(BOOK_ISBN, CATEGORY_ID) VALUES(9781435458864, 6)
+
+/*
+ * CREATE FUNCTIONS
+ */
+IF EXISTS (SELECT * FROM sys.objects WHERE OBJECT_ID = OBJECT_ID(N'FNUB_OPENED_RENT') AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' ))
+  DROP FUNCTION FNUB_OPENED_RENT
+GO 
+
+CREATE FUNCTION FNUB_OPENED_RENT (
+	@UserId		DECIMAL(11, 0)
+)
+RETURNS BIT
+AS
+BEGIN
+	DECLARE	@ReturnDate	DATE
+
+	SELECT		@ReturnDate	=	RENTAL_RETURN_DATE
+	FROM		TBUB_BOOK_RENTAL
+	WHERE		USER_ID		=	@UserId
+	ORDER BY	RENTAL_DATE	DESC
+	,           RENTAL_ID
+	OFFSET		0	ROWS
+	FETCH NEXT	1	ROWS ONLY
+
+	IF ((@@ROWCOUNT > 0) AND (@ReturnDate IS NULL))
+	BEGIN
+		RETURN 1
+	END
+
+	RETURN 0
+END
+GO
 
 /*
  * CREATE PROCEDURES
@@ -321,23 +458,26 @@ CREATE PROCEDURE SPUB_LOGIN (
 	@UserEmail		VARCHAR(64)
 ,	@UserPassword	CHAR(64)
 ,	@UserId			DECIMAL(11, 0)	OUTPUT
+,	@UserRole		VARCHAR(5)		OUTPUT
 ,	@UserFirstName	VARCHAR(32)		OUTPUT
 ,   @UserLastName	VARCHAR(64)		OUTPUT
 )
 AS
 BEGIN
 	SELECT	@UserId			=	USER_ID
+	,		@UserRole		=	USER_ROLE
 	,		@UserFirstName	=	USER_FIRST_NAME
 	,		@UserLastName	=	USER_LAST_NAME
 	FROM	TBUB_USERS
 	WHERE	USER_EMAIL		=	@UserEmail
 	AND		USER_PASSWORD	=	@UserPassword
 
-	if (@@ROWCOUNT <= 0)
-	begin
+	IF (@@ROWCOUNT <= 0)
+	BEGIN
 		SET @UserId = -1
-	end
+	END
 END
+GO
 
 IF (OBJECT_ID('SPUB_REGISTER', 'P') IS NOT NULL)
     DROP PROCEDURE SPUB_REGISTER;
@@ -348,7 +488,8 @@ CREATE PROCEDURE SPUB_REGISTER (
 ,	@UserPassword	CHAR(64)
 ,	@UserFirstName	VARCHAR(32)
 ,	@UserLastName	VARCHAR(64)
-,	@UserId			DECIMAL(11, 0) OUTPUT
+,	@UserId			DECIMAL(11, 0)	OUTPUT
+,	@UserRole		VARCHAR(5)		OUTPUT
 )
 AS
 BEGIN
@@ -357,23 +498,192 @@ BEGIN
 		INSERT
 		INTO	TBUB_USERS (
 			USER_EMAIL
+		,	USER_ROLE
 		,	USER_PASSWORD
 		,	USER_FIRST_NAME
 		,	USER_LAST_NAME
 		) VALUES (
 			@UserEmail
+		,	N'USER'
 		,	@UserPassword
 		,	@UserFirstName
 		,	@UserLastName
 		)
 
 		SELECT	@UserId		=	USER_ID
+		,		@UserRole	=	USER_ROLE
 		FROM	TBUB_USERS
 		WHERE	USER_EMAIL	=	@UserEmail
 	END
 	ELSE
 	BEGIN
 		SET @UserId = -1
+	END
+END
+GO
+
+IF (OBJECT_ID('SPUB_UPDATE_PROFILE', 'P') IS NOT NULL)
+    DROP PROCEDURE SPUB_UPDATE_PROFILE;
+GO
+
+CREATE PROCEDURE SPUB_UPDATE_PROFILE (
+	@UserEmail		VARCHAR(64)
+,	@UserFirstName	VARCHAR(32)
+,	@UserLastName	VARCHAR(64)
+,	@UserId			DECIMAL(11, 0)	OUTPUT
+,	@UserRole		VARCHAR(5)		OUTPUT
+)
+AS
+BEGIN
+	IF (EXISTS(SELECT 1 FROM TBUB_USERS WHERE USER_EMAIL = @UserEmail))
+	BEGIN
+		UPDATE	TBUB_USERS
+		SET		USER_FIRST_NAME	=	@UserFirstName
+		,		USER_LAST_NAME	=	@UserLastName
+		WHERE	USER_EMAIL		=	@UserEmail
+
+		SELECT	@UserId		=	USER_ID
+		,		@UserRole	=	USER_ROLE
+		FROM	TBUB_USERS
+		WHERE	USER_EMAIL	=	@UserEmail
+	END
+	ELSE
+	BEGIN
+		SET @UserId = -1
+	END
+END
+GO
+
+IF (OBJECT_ID('SPUB_RESERVE_BOOK', 'P') IS NOT NULL)
+    DROP PROCEDURE SPUB_RESERVE_BOOK;
+GO
+
+CREATE PROCEDURE SPUB_RESERVE_BOOK (
+	@UserId			DECIMAL(11, 0)
+,	@BookIsbn		DECIMAL(13, 0)
+,	@RentalId		DECIMAL(15, 0)	OUTPUT
+,   @RentalDate		DATE			OUTPUT
+,	@RentalDueDate	DATE			OUTPUT
+)
+AS
+BEGIN
+	DECLARE @HasOpenedRent	BIT
+
+	SET @HasOpenedRent = dbo.FNUB_OPENED_RENT(@UserId)
+
+	IF (@HasOpenedRent = 0)
+	BEGIN
+		BEGIN TRANSACTION
+
+		INSERT INTO	TBUB_BOOK_RENTAL (USER_ID) VALUES (@UserId)
+
+		SET @RentalId = SCOPE_IDENTITY()
+
+		INSERT INTO	TBUB_BOOK_RENTAL_DETAIL (
+			RENTAL_ID
+		,	BOOK_ISBN
+		) VALUES (   
+			@RentalId
+		,	@BookIsbn
+		)
+
+		SELECT	@RentalDate		=	RENTAL_DATE
+		,		@RentalDueDate	=	RENTAL_DUE_DATE
+		FROM	TBUB_BOOK_RENTAL
+		WHERE	RENTAL_ID		=	@RentalId
+
+		COMMIT
+	END
+	ELSE
+	BEGIN
+		SET @RentalId = -1
+	END
+END
+GO
+
+IF (OBJECT_ID('SPUB_UPDATE_BOOK', 'P') IS NOT NULL)
+    DROP PROCEDURE SPUB_UPDATE_BOOK;
+GO
+
+CREATE PROCEDURE SPUB_UPDATE_BOOK (
+	@BookIsbn				DECIMAL(13, 0)
+,	@BookTitle				VARCHAR(128)
+,	@BookDescription		VARCHAR(2048)
+,	@BookPublicationDate	DATE
+,	@BookEdition			DECIMAL(5, 0)
+,	@BookIsAvailable		BIT
+,	@BookQuantityAvailable	DECIMAL(5, 0)
+,	@BookPages				DECIMAL(5, 0)
+,	@BookImageUrl01			VARCHAR(255)
+,	@BookImageUrl02			VARCHAR(255)
+,	@BookImageUrl03			VARCHAR(255)
+,	@BookImageUrl04			VARCHAR(255)
+,	@BookImageUrl05			VARCHAR(255)
+)
+AS
+BEGIN
+	UPDATE	TBUB_BOOKS
+	SET		BOOK_TITLE				=	@BookTitle
+	,		BOOK_DESCRIPTION		=	@BookDescription
+	,		BOOK_PUBLICATION_DATE	=	@BookPublicationDate
+	,		BOOK_EDITION			=	@BookEdition
+	,		BOOK_IS_AVAILABLE		=	@BookIsAvailable
+	,		BOOK_QUANTITY_AVAILABLE	=	@BookQuantityAvailable
+	,		BOOK_PAGES				=	@BookPages
+	,		BOOK_IMG_URL_01			=	@BookImageUrl01
+	,		BOOK_IMG_URL_02			=	@BookImageUrl02
+	,		BOOK_IMG_URL_03			=	@BookImageUrl03
+	,		BOOK_IMG_URL_04			=	@BookImageUrl04
+	,		BOOK_IMG_URL_05			=	@BookImageUrl05
+	WHERE	BOOK_ISBN				=	@BookIsbn
+END
+GO
+
+/*
+ * Create Triggers
+ */
+IF (OBJECT_ID ('TGUB_DECREASE_AVAILABLE_BOOKS','TR') IS NOT NULL)
+   DROP TRIGGER TGUB_DECREASE_AVAILABLE_BOOKS;
+GO
+
+CREATE TRIGGER TGUB_DECREASE_AVAILABLE_BOOKS ON TBUB_BOOK_RENTAL_DETAIL
+AFTER INSERT
+AS
+BEGIN
+	UPDATE		TBUB_BOOKS
+	SET			BOOK_QUANTITY_AVAILABLE	=	BOOK_QUANTITY_AVAILABLE - 1
+	,			BOOK_IS_AVAILABLE		=	CASE
+												WHEN BOOK_QUANTITY_AVAILABLE > 1 THEN 1
+												ELSE 0
+											END
+	FROM		TBUB_BOOKS	book
+	INNER JOIN	Inserted	inse
+	ON			inse.BOOK_ISBN	=	book.BOOK_ISBN
+END
+GO
+
+IF (OBJECT_ID ('TGUB_INCREASE_AVAILABLE_BOOKS','TR') IS NOT NULL)
+   DROP TRIGGER TGUB_INCREASE_AVAILABLE_BOOKS;
+GO
+
+CREATE TRIGGER TGUB_INCREASE_AVAILABLE_BOOKS ON TBUB_BOOK_RENTAL
+AFTER UPDATE
+AS
+BEGIN
+	IF (UPDATE(RENTAL_RETURN_DATE))
+	BEGIN
+		UPDATE		TBUB_BOOKS
+		SET			BOOK_QUANTITY_AVAILABLE	=	BOOK_QUANTITY_AVAILABLE + 1
+		,			BOOK_IS_AVAILABLE		=	1
+		FROM		TBUB_BOOKS				book
+		INNER JOIN	TBUB_BOOK_RENTAL_DETAIL	deta
+		ON			deta.BOOK_ISBN			=	book.BOOK_ISBN
+		INNER JOIN	Inserted				inse
+		ON			inse.RENTAL_ID			=	deta.RENTAL_ID
+		INNER JOIN	Deleted					dele
+		ON			dele.RENTAL_ID			=	inse.RENTAL_ID
+		WHERE		dele.RENTAL_RETURN_DATE	IS	NULL
+		AND			inse.RENTAL_RETURN_DATE	IS	NOT NULL
 	END
 END
 GO

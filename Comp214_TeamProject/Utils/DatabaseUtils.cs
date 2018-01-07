@@ -154,7 +154,15 @@ namespace Comp214_TeamProject.Utils
                     {
                         if (parameter.DbSize > 0)
                         {
-                            command.Parameters.Add(parameter.Name, DbTypeToSqlDbType(parameter.DbType), parameter.DbSize).Value = parameter.Value;
+                            if (parameter.DbType != Database.DbType.DECIMAL)
+                            {
+                                command.Parameters.Add(parameter.Name, DbTypeToSqlDbType(parameter.DbType), parameter.DbSize).Value = parameter.Value;
+                            }
+                            else
+                            {
+                                command.Parameters.Add(parameter.Name, DbTypeToSqlDbType(parameter.DbType)).Value = parameter.Value;
+                                command.Parameters[parameter.Name].Precision = (byte)parameter.DbSize;
+                            }
                         }
                         else
                         {
@@ -214,7 +222,7 @@ namespace Comp214_TeamProject.Utils
                 {
                     if (parameter.DbType == Database.DbType.DECIMAL)
                     {
-                        command.Parameters.Add(parameter.Name, DbTypeToOracleDbType(parameter.DbType), parameter.Direction).Precision = (byte) parameter.DbSize;
+                        command.Parameters.Add(parameter.Name, DbTypeToOracleDbType(parameter.DbType), parameter.Direction).Precision = (byte)parameter.DbSize;
                     }
                     else
                     {
@@ -231,7 +239,7 @@ namespace Comp214_TeamProject.Utils
         /// <returns>The converted Type.</returns>
         private static SqlDbType DbTypeToSqlDbType(Database.DbType dbType)
         {
-            switch(dbType)
+            switch (dbType)
             {
                 case Database.DbType.BIT:
                     return SqlDbType.Bit;

@@ -148,7 +148,9 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\logo.png" />
     <Content Include="Login.aspx" />
+    <Content Include="MyAccount.aspx" />
     <Content Include="Register.aspx" />
+    <Content Include="ReserveDetails.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -178,6 +180,7 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
+    <Content Include="UpdateBook.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -194,13 +197,17 @@
       <DependentUpon>BookDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\BookRentalController.cs" />
     <Compile Include="Controllers\GenericController.cs" />
     <Compile Include="Controllers\IBookController.cs" />
+    <Compile Include="Controllers\IBookRentalController.cs" />
     <Compile Include="Controllers\IUserController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Database\DAOs\BookDAO.cs" />
+    <Compile Include="Database\DAOs\BookRentalDAO.cs" />
     <Compile Include="Database\DAOs\GenericDAO.cs" />
     <Compile Include="Database\DAOs\IBookDAO.cs" />
+    <Compile Include="Database\DAOs\IBookRentalDAO.cs" />
     <Compile Include="Database\DAOs\IGenericDAO.cs" />
     <Compile Include="Database\DAOs\IUserDAO.cs" />
     <Compile Include="Database\DAOs\UserDAO.cs" />
@@ -208,6 +215,7 @@
     <Compile Include="Database\Exceptions\DatabaseException.cs" />
     <Compile Include="Database\Models\Author.cs" />
     <Compile Include="Database\Models\Book.cs" />
+    <Compile Include="Database\Models\BookRental.cs" />
     <Compile Include="Database\Models\Category.cs" />
     <Compile Include="Database\Models\DomainModel.cs" />
     <Compile Include="Database\Models\GenericModel.cs" />
@@ -234,6 +242,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MyAccount.aspx.cs">
+      <DependentUpon>MyAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyAccount.aspx.designer.cs">
+      <DependentUpon>MyAccount.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Patterns\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.aspx.cs">
@@ -242,6 +257,13 @@
     </Compile>
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReserveDetails.aspx.cs">
+      <DependentUpon>ReserveDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReserveDetails.aspx.designer.cs">
+      <DependentUpon>ReserveDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -256,6 +278,13 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateBook.aspx.cs">
+      <DependentUpon>UpdateBook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UpdateBook.aspx.designer.cs">
+      <DependentUpon>UpdateBook.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utils\DatabaseUtils.cs" />
     <Compile Include="Utils\ReflectionUtils.cs" />

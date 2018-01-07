@@ -1,4 +1,5 @@
 ﻿using Comp214_TeamProject.Database.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Comp214_TeamProject.Controllers
@@ -29,5 +30,38 @@ namespace Comp214_TeamProject.Controllers
         /// <param name="books">The list of books to be searched.</param>
         /// <returns>The book which have the ISBN passed as parameter. Null if no book is found.</returns>
         Book RetrieveBookDetails(string isbn, List<Book> books);
+
+        /// <summary>
+        /// Updates the book information on the database
+        /// </summary>
+        /// <param name="isbn"></param>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
+        /// <param name="publicationDate"></param>
+        /// <param name="edition"></param>
+        /// <param name="isAvailable"></param>
+        /// <param name="quantityAvailable"></param>
+        /// <param name="pages"></param>
+        /// <param name="url01"></param>
+        /// <param name="url02"></param>
+        /// <param name="url03"></param>
+        /// <param name="url04"></param>
+        /// <param name="url05"></param>
+        /// <returns></returns>
+        void UpdateBook(
+                decimal isbn,
+                string title,
+                string description,
+                DateTime publicationDate,
+                decimal edition,
+                bool isAvailable,
+                decimal quantityAvailable,
+                decimal pages,
+                string url01,
+                string url02,
+                string url03,
+                string url04,
+                string url05
+        );
     }
 }
