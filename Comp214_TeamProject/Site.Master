@@ -72,8 +72,17 @@
                     </div>
                     <div class="ub-book-signin-register">
                         <ul class="nav navbar-nav">
-                            <li><a runat="server" href="~/Login">Login</a></li>
-                            <li><a runat="server" href="~/Register">Register</a></li>
+                            <% if (null == Session["LoggedUser"]) { %>
+                                <li><a runat="server" href="~/Login">Login</a></li>
+                            <% } else { %>
+                                <li><asp:LinkButton ID="LogoutLinkButton" Text="Logout" runat="server" OnClick="LogoutLinkButton_Click"/></li>
+                            <% } %>
+
+                            <% if (null == Session["LoggedUser"]) { %>
+                                <li><a runat="server" href="~/Register">Register</a></li>
+                            <% } else { %>
+                                <li><a runat="server" href="~/MyAccount">My Account</a></li>
+                            <% } %>
                         </ul>
                     </div>
                     <div class="col-sm-12">

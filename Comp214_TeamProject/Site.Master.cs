@@ -23,5 +23,11 @@ namespace Comp214_TeamProject
             Session["BookList"] = bookController.RetrivedBooksByFilter(SearchByDropDownList.SelectedItem.Value, SearchByTextBox.Text);
             Response.Redirect("~/");
         }
+
+        protected void LogoutLinkButton_Click(object sender, EventArgs e)
+        {
+            Session["LoggedUser"] = null;
+            Response.Redirect("~/");
+        }
     }
 }
