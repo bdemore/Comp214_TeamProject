@@ -13,18 +13,21 @@ namespace Comp214_TeamProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (null == Session["BookRental"])
+            if (!IsPostBack)
             {
-                Response.Redirect("~/");
-            }
-            else
-            {
-                bookRental = (Session["BookRental"] as BookRental);
-                reserveNumber = GetBookRentalIdAsString();
-                reserveDate = GetDateAsString(bookRental.RentalDate);
-                reserveDueDate = GetDateAsString(bookRental.RentalDueDate);
-                Session["BookRental"] = null;
-                ShowDetails();
+                if (null == Session["BookRental"])
+                {
+                    Response.Redirect("~/");
+                }
+                else
+                {
+                    bookRental = (Session["BookRental"] as BookRental);
+                    reserveNumber = GetBookRentalIdAsString();
+                    reserveDate = GetDateAsString(bookRental.RentalDate);
+                    reserveDueDate = GetDateAsString(bookRental.RentalDueDate);
+                    Session["BookRental"] = null;
+                    ShowDetails();
+                }
             }
         }
 

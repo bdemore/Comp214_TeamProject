@@ -156,7 +156,7 @@
             </div>
             <div class="ub-book-details-text-description">
                 <div class="col-sm-3">
-                    <span class="ub-book-details-text-description-bold">Authors: </span>
+                    <span class="ub-book-details-text-description-bold">Categories: </span>
                 </div>
                 <div class="col-sm-9">&nbsp;</div>
                 <asp:Repeater ID="BookCategoryRepeater" runat="server">

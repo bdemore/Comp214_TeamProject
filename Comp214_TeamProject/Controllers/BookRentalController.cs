@@ -38,8 +38,8 @@ namespace Comp214_TeamProject.Controllers
                 return new BookRental()
                 {
                     PrimaryKey = new DecimalPrimaryKey(decimal.Parse(rentalId.Value.ToString())),
-                    RentalDate = (DateTime)rentalDate.Value,
-                    RentalDueDate = (DateTime)rentalDueDate.Value,
+                    RentalDate = DateTime.Parse(rentalDate.Value.ToString()),
+                    RentalDueDate = DateTime.Parse(rentalDueDate.Value.ToString()),
                     User = user,
                     Books = { book }
                 };
