@@ -14,4 +14,11 @@ namespace Comp214_TeamProject
 
         }
     }
+    protected void SentMessage_Click (object sender, EventArgs e)
+    {
+       /* if(Page.IsValid)
+        {
+            Response.Redirect(~/);
+        }*/
+    }
 }

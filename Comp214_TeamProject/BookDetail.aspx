@@ -15,7 +15,7 @@
                 <asp:Image ID="BookImage" CssClass="ub-book-image-large" runat="server" />
             </div>
             <div class="ub-book-image-all-thumbnails">
-                <% if (!string.IsNullOrEmpty(book.ImageUrl01)) { %>
+                <%if (!string.IsNullOrEmpty(book.ImageUrl01)) { %>
                 <div class="ub-book-image-thumbnail-container">
                     <asp:ImageButton ID="BookUrl01ImageButton" CssClass="ub-book-image-thumbnail" runat="server" OnClick="BookUrl02ImageButton_Click" CommandArgument="1" />
                 </div>

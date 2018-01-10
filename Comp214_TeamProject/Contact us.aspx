@@ -5,7 +5,7 @@
         <p>Name: <asp:TextBox ID="name" runat="server"></asp:TextBox></p>
              <p>Email: <asp:TextBox ID="email" runat="server"></asp:TextBox></p>
              <p>Message: <textarea id="message" cols="20" rows="3"></textarea></p>
-            <asp:Button ID="Button1" runat="server" Text="Save" OnClick="Save_Click" />
+            <asp:Button ID="SentMessage" runat="server" Text="Sent" OnClick="SentMessage_Click" />
 
         </div>
 </asp:Content>
