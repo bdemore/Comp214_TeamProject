@@ -84,8 +84,11 @@ CREATE TABLE TBUB_USERS (
         VARCHAR2(32)
         NOT NULL
 ,	USER_LAST_NAME
-        VARCHAR(64)
+        VARCHAR2(64)
         NOT NULL
+,	USER_ROLE
+		VARCHAR2(5)
+		NOT NULL
 ,	USER_CREATE_DATE
         TIMESTAMP
         DEFAULT CURRENT_TIMESTAMP
@@ -134,6 +137,9 @@ CREATE TABLE TBUB_BOOKS (
 ,	BOOK_QUANTITY_AVAILABLE
         DECIMAL(3, 0)
         NOT NULL
+,	BOOK_PAGES
+		DECIMAL(5, 0)
+		NOT NULL
 ,	BOOK_IMG_URL_01
         VARCHAR2(255)
         NOT NULL
@@ -217,26 +223,49 @@ INSERT INTO TBUB_AUTHORS(AUTHOR_NAME) VALUES('J. K. Rowling');
 
 INSERT INTO TBUB_PUBLISHERS(PUBLISHER_NAME) VALUES('Bloomsbury Childre''s Books');
 
-INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_IMG_URL_01, PUBLISHER_ID)
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
 VALUES(
-	9781408845646, 'Harry Potter and the Philosopher''s Stone',
-	'Prepare to be spellbound by Jim Kay''s dazzling depiction of the wizarding world and much loved characters in this full-colour illustrated hardback edition of the natio''s favourite childre''s book – Harry Potter and the Philosopher''s Stone. Brimming with rich detail and humour that perfectly complements J.K. Rowling''s timeless classic, Jim Kay''s glorious illustrations will captivate fans and new readers alike.',
-	'2015-10-06', 1, 1, 10, 'https://images-na.ssl-images-amazon.com/images/I/51sTwK7kBxL._AA218_.jpg', 1);
-INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_IMG_URL_01, PUBLISHER_ID)
+	9781408845646, 'Harry Potter and the Philosopher''s Stone: Illustrated Edition',
+	'Prepare to be spellbound by Jim Kay''s dazzling depiction of the wizarding world and much loved characters in this full-colour illustrated hardback edition of the nation''s favourite children''s book – Harry Potter and the Philosopher''s Stone. Brimming with rich detail and humour that perfectly complements J.K. Rowling''s timeless classic, Jim Kay''s glorious illustrations will captivate fans and new readers alike.',
+	'2015-10-06', 1, 1, 2, 300, 1,
+	'https://images-na.ssl-images-amazon.com/images/I/51sTwK7kBxL.jpg', 
+	'https://images-na.ssl-images-amazon.com/images/I/51bor5867kL.jpg',
+	'https://images-na.ssl-images-amazon.com/images/I/A1Zq8UVPX5L.jpg',
+	'https://images-na.ssl-images-amazon.com/images/I/A1WzMnxvS4L.jpg',
+	'https://images-na.ssl-images-amazon.com/images/I/91oBYD92sIL.jpg');
+
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
 VALUES(
-	9781408845653, 'Harry Potter and the Chamber of Secrets',
+	9781408845653, 'Harry Potter and the Chamber of Secrets: Illustred Edition',
 	'Prepare to be spellbound by Jim Kay''s dazzling full-colour illustrations in this stunning new edition of J.K. Rowling''s Harry Potter and the Chamber of Secrets. Breathtaking scenes, dark themes and unforgettable characters await inside this fully illustrated edition. With paint, pencil and pixels, award-winning illustrator Jim Kay conjures the wizarding world as we have never seen it before. Fizzing with magic and brimming with humour, this inspired reimagining will captivate fans and new readers alike, as Harry and his friends, now in their second year at Hogwarts School of Witchcraft and Wizardry, seek out a legendary chamber and the deadly secret that lies at its heart.',
-	'2016-10-04', 1, 1, 10, 'https://images-na.ssl-images-amazon.com/images/I/61+abdOC5gL._AA218_.jpg', 1);
-INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_IMG_URL_01, PUBLISHER_ID)
+	'2016-10-04', 1, 1, 1, 289, 1,
+	'https://images-na.ssl-images-amazon.com/images/I/61%2BabdOC5gL.jpg',
+	'https://images-na.ssl-images-amazon.com/images/I/A1ikEJqTnuL.jpg',
+	NULL,
+	NULL,
+	NULL);
+
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
 VALUES(
 	9781408845660, 'Harry Potter and the Prisoner of Azkaban',
 	'An extraordinary creative achievement by an extraordinary talent, Jim Kay''s inspired reimagining of J.K. Rowling''s classic series has captured a devoted following worldwide. This stunning new fully illustrated edition of Harry Potter and the Prisoner of Azkaban brings more breathtaking scenes and unforgettable characters – including Sirius Black, Remus Lupin and Professor Trelawney. With paint, pencil and pixels, Kay conjures the wizarding world as we have never seen it before. Fizzing with magic and brimming with humour, this full-colour edition will captivate fans and new readers alike as Harry, now in his third year at Hogwarts School of Witchcraft and Wizardry, faces Dementors, death omens and, of course, danger.',
-	'2017-10-03', 1, 1, 10, 'https://images-na.ssl-images-amazon.com/images/I/617HC+dtBOL._AA218_.jpg', 1);
-INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_IMG_URL_01, PUBLISHER_ID)
+	'2017-10-03', 1, 1, 3, 334, 1,
+	'https://images-na.ssl-images-amazon.com/images/I/A1RGxzkX3ML.jpg',
+	'https://images-na.ssl-images-amazon.com/images/I/41Lu0KOI3cL.jpg',
+	NULL,
+	NULL,
+	NULL);
+
+INSERT INTO TBUB_BOOKS(BOOK_ISBN, BOOK_TITLE, BOOK_DESCRIPTION, BOOK_PUBLICATION_DATE, BOOK_EDITION, BOOK_IS_AVAILABLE, BOOK_QUANTITY_AVAILABLE, BOOK_PAGES, PUBLISHER_ID, BOOK_IMG_URL_01, BOOK_IMG_URL_02, BOOK_IMG_URL_03, BOOK_IMG_URL_04, BOOK_IMG_URL_05)
 VALUES(
 	9781408890769, 'Harry Potter - A History of Magic: The Book of the Exhibition',
 	'Harry Potter: A History of Magic is the official book of the exhibition, a once-in-a-lifetime collaboration between Bloomsbury, J.K. Rowling and the brilliant curators of the British Library. It promises to take readers on a fascinating journey through the subjects studied at Hogwarts School of Witchcraft and Wizardry - from Alchemy and Potions classes through to Herbology and Care of Magical Creatures.',
-	'2017-10-20', 1, 1, 10, 'https://images-na.ssl-images-amazon.com/images/I/61Lo-+FBs+L._AA218_.jpg', 1);
+	'2017-10-20', 1, 1, 1, 256, 1,
+	'https://images-na.ssl-images-amazon.com/images/I/61Lo-%2BFBs%2BL.jpg',
+	'https://images-na.ssl-images-amazon.com/images/I/51Ck3uTZQEL.jpg',
+	NULL,
+	NULL,
+	NULL);
 
 INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9781408845646, 1);
 INSERT INTO TBUB_BOOKS_AUTHORS(BOOK_ISBN, AUTHOR_ID) VALUES(9781408845653, 1);

@@ -89,7 +89,7 @@
 
         <footer>
             <div class="container body-content">
-                <p>&copy; <%: DateTime.Now.Year %> - <b>Undercover Books</b> - Developed by Rodrigo Januario, Bruno Demore, Jimmy Dang &amp; Lyu Yun</p>
+                <p>&copy; <%: DateTime.Now.Year %> - <b>Undercover Books</b> - Developed by Rodrigo Januario, Bruno Demore, Phat Dang &amp; Lyu Yun</p>
             </div>
         </footer>
 
