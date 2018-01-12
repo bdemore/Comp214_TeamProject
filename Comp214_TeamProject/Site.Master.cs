@@ -29,5 +29,10 @@ namespace Comp214_TeamProject
             Session["LoggedUser"] = null;
             Response.Redirect("~/");
         }
+
+        protected void ContactLinkButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/ContactUs.aspx");
+        }
     }
 }

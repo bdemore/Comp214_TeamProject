@@ -196,7 +196,7 @@
             </div>
             <div class="col-sm-12 register-button-container">
                 <div class="col-sm-6" style="padding-top: 50px;">
-                    <asp:Button ID="UpdateButton" Text="Updte Book" CssClass="ub-book-button" runat="server" OnClick="UpdateButton_Click" />
+                    <asp:Button ID="UpdateButton" Text="Update Book" CssClass="ub-book-button" runat="server" OnClick="UpdateButton_Click" />
                 </div>
                 <div class="col-sm-6" style="padding-top: 50px;">
                     <asp:Button ID="CancelButton" Text="Cancel" CssClass="ub-book-button" runat="server" OnClick="CancelButton_Click" CausesValidation="false" />
